@@ -24,7 +24,9 @@ int main()
 	else
 		std::cout << "Connected to host..." << std::endl;	
 
-	WSACleanup();
+	c1->CloseConnection(); // Close connection
+
+	WSACleanup(); // Clear filled resources for WinSock
 
 	return 0;
 }
