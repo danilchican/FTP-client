@@ -6,6 +6,9 @@ class Connection
 	SOCKET sock;
 public:
 	Connection(char *ftpHost, int port);
-	bool Connect();
-	bool CloseConnection(); // to complete
+	bool Connect(); 
+	bool Close(); // to complete	
+private:
+	void quit(); // send command QUIT
+	void sendCommand(const char *command); // send some commands 
 };

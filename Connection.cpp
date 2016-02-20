@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 #include "headers\Connection.h"
@@ -40,9 +41,7 @@ bool Connection::Connect()
 			return false;
 	};
 	
-	// Server address got, take connection
-
-	if (connect(this->sock, (sockaddr *)&sockInfo, sizeof(sockInfo)))
+	if (connect(this->sock, (sockaddr *)&sockInfo, sizeof(sockInfo))) // Server address got, take connection
 	{
 		cout << "Connect error: " << WSAGetLastError() << endl;
 		return false;
@@ -50,11 +49,27 @@ bool Connection::Connect()
 
 	return true;
 }
-bool Connection::CloseConnection()
+bool Connection::Close() // close connection
 {
 	// will send QUIT command here 
+
+	this->quit(); // calling quit() method
 
 	closesocket(this->sock); // Close current socket
 
 	return true;
+}
+void Connection::quit() // send QUIT command
+{
+	this->sendCommand("QUIT"); 
+}
+void Connection::sendCommand(const char *command) // send command
+{
+	int length = strlen(command);
+	char *buf = new char[length + 8];
+
+	strcpy_s(buf, length + 1, command);
+	strcat_s(buf, 7, "\r\n");
+
+	send(this->sock, buf, strlen(buf), 0);
 }

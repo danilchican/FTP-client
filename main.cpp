@@ -1,7 +1,5 @@
-#define _CRT_SECURE_NO_WARNINGS
 #pragma comment(lib, "wsock32.lib")
 
-#include <stdio.h>
 #include <Winsock.h>
 #include <windows.h>
 #include <iostream>
@@ -24,7 +22,7 @@ int main()
 	else
 		std::cout << "Connected to host..." << std::endl;	
 
-	c1->CloseConnection(); // Close connection
+	c1->Close(); // Close connection
 
 	WSACleanup(); // Clear filled resources for WinSock
 
