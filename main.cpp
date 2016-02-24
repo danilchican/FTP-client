@@ -1,15 +1,4 @@
-#pragma comment(lib, "wsock32.lib")
-
-#include <Winsock.h>
-#include <windows.h>
-#include <iostream>
-
-#include "headers\Connection.h"
-
-#define PORT 21
-
-WSADATA ws;
-char buf[256];
+#include "headers\Headers.h"
 
 int main()
 {

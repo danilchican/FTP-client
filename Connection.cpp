@@ -3,8 +3,9 @@
 using namespace std;
 
 #include "headers\Connection.h"
+#include "headers\Command.h"
 
-Connection::Connection(char *ftpHost, int port) : port(port)
+Connection::Connection(const char *ftpHost, unsigned int port) : port(port)
 {
 	strcpy_s(this->ftpHost, ftpHost);
 }
@@ -51,8 +52,6 @@ bool Connection::Connect()
 }
 bool Connection::Close() // close connection
 {
-	// will send QUIT command here 
-
 	this->quit(); // calling quit() method
 
 	closesocket(this->sock); // Close current socket
@@ -61,15 +60,5 @@ bool Connection::Close() // close connection
 }
 void Connection::quit() // send QUIT command
 {
-	this->sendCommand("QUIT"); 
-}
-void Connection::sendCommand(const char *command) // send command
-{
-	int length = strlen(command);
-	char *buf = new char[length + 8];
-
-	strcpy_s(buf, length + 1, command);
-	strcat_s(buf, 7, "\r\n");
-
-	send(this->sock, buf, strlen(buf), 0);
+	Command::sendCommand(this->sock, "QUIT");
 }

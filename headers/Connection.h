@@ -2,13 +2,12 @@
 class Connection
 {
 	char ftpHost[80];
-	int port;
+	unsigned int port;
 	SOCKET sock;
 public:
-	Connection(char *ftpHost, int port);
+	Connection(const char *ftpHost, unsigned int port);
 	bool Connect(); 
-	bool Close(); // to complete	
+	bool Close();
 private:
-	void quit(); // send command QUIT
-	void sendCommand(const char *command); // send some commands 
+	void quit(); 
 };
