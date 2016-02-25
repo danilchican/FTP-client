@@ -1,10 +1,5 @@
-#pragma comment(lib, "wsock32.lib")
-
-#include <iostream>
+#include "headers\Headers.h"
 #include <string>
-#include <sstream>
-#include <Winsock.h>
-#include "headers\CommandLine.h"
 
 using namespace std;
 
@@ -21,7 +16,6 @@ void CommandLine::setData()
 	this->cmd = new char[cmdLine.length() + 1];
 	strcpy_s(this->cmd, cmdLine.length() + 1, cmdLine.c_str());
 	cout << this->cmd << endl;
-
 }
 const char * CommandLine::getRequest()
 {

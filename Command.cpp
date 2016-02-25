@@ -1,22 +1,18 @@
-#pragma comment(lib, "wsock32.lib")
-
-#include <iostream>
-#include <Winsock.h>
-#include "headers\Command.h"
+#include "headers\Headers.h"
 
 using namespace std;
 
 void Command::sendCommand(SOCKET sock, const char *command)
 {
 	int length = strlen(command);
-	char *buf = new char[length + 8];
+	char *buffer = new char[length + 8];
 
-	strcpy_s(buf, length + 1, command);
-	strcat_s(buf, 7, "\r\n");
+	strcpy_s(buffer, length + 1, command);
+	strcat_s(buffer, 7, "\r\n");
 
 	try
 	{
-		int backed_code = send(sock, buf, strlen(buf), 0);
+		int backed_code = send(sock, buffer, strlen(buffer), 0);
 		if (backed_code <= 0)
 			throw backed_code;
 	}
@@ -40,4 +36,9 @@ void Command::sendCommand(SOCKET sock, const char *command)
 		cout << "Something error: " << WSAGetLastError() << endl;
 	}
 	
+}
+Commands Command::getCommandByStroke(const char *command)
+{
+	if (!strcmp(command, "connect"))
+		return CONNECT;
 }

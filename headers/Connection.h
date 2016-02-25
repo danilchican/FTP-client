@@ -1,4 +1,3 @@
-#include <Winsock.h>
 class Connection
 {
 	char ftpHost[80];
@@ -9,7 +8,8 @@ class Connection
 public:
 	Connection();
 	Connection(const char *ftpHost, unsigned int port, const char *login, const char *pass);
-	bool Connect(); 
+	bool Connect();
+	bool Authorisation();
 	bool Close();
 private:
 	void quit(); 

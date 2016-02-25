@@ -1,5 +1,5 @@
 class Control
 {
 public:
-	void setControl(const char *command);
+	void setControl(Commands command);
 };

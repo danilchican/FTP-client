@@ -1,9 +1,5 @@
-#include <iostream>
-#include <cstring>
+#include "headers\Headers.h"
 using namespace std;
-
-#include "headers\Connection.h"
-#include "headers\Command.h"
 
 Connection::Connection() 
 {
@@ -15,7 +11,6 @@ Connection::Connection()
 	cin >> this->login;
 	cout << "  PASS: ";
 	cin >> this->password;
-
 }
 Connection::Connection(const char *ftpHost, unsigned int port, const char *login, const char *pass) : port(port)
 {
@@ -61,6 +56,23 @@ bool Connection::Connect()
 		cout << "Connect error: " << WSAGetLastError() << endl;
 		return false;
 	}
+
+	return true;
+}
+bool Connection::Authorisation()
+{
+	int length = strlen(login);
+	char *userData = new char[length + 6];
+	strcpy_s(userData, length + 6, "USER ");
+	strcat_s(userData, length + 6, login);
+
+	length = strlen(password);
+	char *passData = new char[length + 6];
+	strcpy_s(passData, length + 6, "PASS ");
+	strcat_s(passData, length + 6, password);
+
+	Command::sendCommand(this->sock, userData); // send login
+	Command::sendCommand(this->sock, passData); // send pass
 
 	return true;
 }

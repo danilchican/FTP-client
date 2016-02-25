@@ -1,15 +1,14 @@
-#pragma comment(lib, "wsock32.lib")
-
 #include <Winsock.h>
 #include <windows.h>
 #include <iostream>
 
-#include "Connection.h"
+enum Commands { CONNECT, DISCONNECT };
+
 #include "Command.h"
+#include "Connection.h"
 #include "CommandLine.h"
 #include "Control.h"
 
 #define PORT 21
 
-WSADATA ws;
-char buf[256];
+

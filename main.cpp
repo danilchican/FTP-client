@@ -1,4 +1,8 @@
+#pragma comment(lib, "wsock32.lib")
+
 #include "headers\Headers.h"
+
+WSADATA ws;
 
 // host: vh60.hoster.by
 // port: 21
@@ -13,7 +17,7 @@ int main()
 	do
 	{
 		cmd->setCommandLine();
-		control->setControl(cmd->getRequest());
+		control->setControl(Command::getCommandByStroke(cmd->getRequest()));
 
 	} while (true);
 

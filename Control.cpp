@@ -1,23 +1,40 @@
-#include <iostream>
-#include <cstring>
+#include "headers\Headers.h"
 using namespace std;
 
-#include "headers\Connection.h"
-#include "headers\Command.h"
-#include "headers\Control.h"
-
-void Control::setControl(const char *command)
+void Control::setControl(Commands command)
 {
 	Connection *c1 = NULL;
 
-	if (c1 == NULL)
+	switch (command)
 	{
-		c1 = new Connection(); // Create new connection without params
+	case CONNECT:
+		if (c1 == NULL)
+		{
+			c1 = new Connection(); // Create new connection without params
 
-		if (!c1->Connect()) // Connect to host by socket 
-			std::cout << "Cannot connect to host..." << std::endl;
+			if (!c1->Connect()) // Connect to host by socket 
+				cout << "Cannot connect to host." << endl;
+			else
+			{
+				cout << "Connected to host...\nStarting authorisation..." << endl;
+				if (!c1->Authorisation())
+					cout << "Cannot connect to host." << endl;
+				else
+					cout << "" << endl;
+			}
+				
+		}
+		break;
+	case DISCONNECT:
+		if (c1 != NULL)
+			c1->Close(); // Close connection
 		else
-			std::cout << "Connected to host..." << std::endl;
+			cout << "Connection already closed." << endl;
+		break;
+	default:
+		break;
 	}
-	c1->Close(); // Close connection
+
+	
+	
 }
