@@ -2,13 +2,13 @@
 
 using namespace std;
 
-void Command::sendCommand(SOCKET sock, const char *command)
+void Command::sendCommand(SOCKET sock, char *command)
 {
 	int length = strlen(command);
-	char *buffer = new char[length + 8];
+	char *buffer = new char[length + 3];
 
 	strcpy_s(buffer, length + 1, command);
-	strcat_s(buffer, 7, "\r\n");
+	strcat_s(buffer, length + 3, "\r\n");
 
 	try
 	{

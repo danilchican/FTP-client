@@ -62,12 +62,12 @@ bool Connection::Connect()
 bool Connection::Authorisation()
 {
 	int length = strlen(login);
-	char *userData = new char[length + 6];
+	char *userData = new char[length + 7];
 	strcpy_s(userData, length + 6, "USER ");
 	strcat_s(userData, length + 6, login);
 
 	length = strlen(password);
-	char *passData = new char[length + 6];
+	char *passData = new char[length + 7];
 	strcpy_s(passData, length + 6, "PASS ");
 	strcat_s(passData, length + 6, password);
 
