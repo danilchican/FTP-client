@@ -4,8 +4,10 @@
 #include <windows.h>
 #include <iostream>
 
-#include "headers\Connection.h"
-#include "headers\Command.h"
+#include "Connection.h"
+#include "Command.h"
+#include "CommandLine.h"
+#include "Control.h"
 
 #define PORT 21
 

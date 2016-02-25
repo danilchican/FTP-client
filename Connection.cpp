@@ -5,9 +5,23 @@ using namespace std;
 #include "headers\Connection.h"
 #include "headers\Command.h"
 
-Connection::Connection(const char *ftpHost, unsigned int port) : port(port)
+Connection::Connection() 
+{
+	cout << "  HOST: ";
+	cin >> this->ftpHost;
+	cout << "  PORT: ";
+	cin >> this->port;
+	cout << "  LOGIN: ";
+	cin >> this->login;
+	cout << "  PASS: ";
+	cin >> this->password;
+
+}
+Connection::Connection(const char *ftpHost, unsigned int port, const char *login, const char *pass) : port(port)
 {
 	strcpy_s(this->ftpHost, ftpHost);
+	strcpy_s(this->login, login);
+	strcpy_s(this->password, pass);
 }
 bool Connection::Connect()
 {

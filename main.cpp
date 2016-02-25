@@ -1,18 +1,23 @@
 #include "headers\Headers.h"
 
+// host: vh60.hoster.by
+// port: 21
+
 int main()
 {
 	WSAStartup(0x101, &ws); // Initialize the process of wsock32.dll library
-
-	Connection *c1 = new Connection("vh60.hoster.by", PORT); // Create new connection with params (host, port)
 	
-	if (!c1->Connect()) // Connect to host by socket 
-		std::cout << "Cannot connect to host..." << std::endl;
-	else
-		std::cout << "Connected to host..." << std::endl;	
+	CommandLine *cmd = new CommandLine;
+	Control *control = new Control;
 
-	c1->Close(); // Close connection
+	do
+	{
+		cmd->setCommandLine();
+		control->setControl(cmd->getRequest());
 
+	} while (true);
+
+		
 	WSACleanup(); // Clear filled resources for WinSock
 
 	return 0;
