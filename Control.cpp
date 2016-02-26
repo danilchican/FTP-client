@@ -64,7 +64,4 @@ void Control::setControl(Commands command)
 
 		break;
 	}
-
-	
-	
 }

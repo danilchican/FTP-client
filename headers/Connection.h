@@ -4,6 +4,7 @@ class Connection
 	char login[80];
 	char password[80];
 	unsigned int port;
+	unsigned int active_port;
 	SOCKET sock;
 public:
 	Connection();
@@ -13,6 +14,7 @@ public:
 	bool Close();
 	void ServerResponse();
 	void SetPassiveMode();
+	void SetIPForActiveMode();
 	char * user();
 private:
 	void quit(); 
