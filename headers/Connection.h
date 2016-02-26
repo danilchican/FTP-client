@@ -13,6 +13,7 @@ public:
 	bool Close();
 	void ServerResponse();
 	void SetPassiveMode();
+	char * user();
 private:
 	void quit(); 
 };

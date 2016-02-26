@@ -2,7 +2,7 @@
 #include <windows.h>
 #include <iostream>
 
-enum Commands { CONNECT, DISCONNECT };
+enum Commands { CONNECT, DISCONNECT, COMMAND_ERROR, CLEAR_CONSOLE };
 
 #include "Command.h"
 #include "Connection.h"

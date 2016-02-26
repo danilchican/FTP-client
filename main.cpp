@@ -11,7 +11,7 @@ int main()
 	WSAStartup(0x101, &ws); // Initialize the process of wsock32.dll library
 	
 	CommandLine *cmd = new CommandLine;
-	Control *control = new Control;
+	Control *control = new Control();
 
 	do
 	{

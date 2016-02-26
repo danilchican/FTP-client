@@ -84,12 +84,13 @@ bool Connection::Close() // close connection
 	this->quit(); // calling quit() method
 
 	closesocket(this->sock); // Close current socket
-
+	
 	return true;
 }
 void Connection::quit() // send QUIT command
 {
 	Command::sendCommand(this->sock, "QUIT");
+	this->ServerResponse();
 }
 void Connection::ServerResponse()
 {
@@ -105,4 +106,9 @@ void Connection::ServerResponse()
 void Connection::SetPassiveMode()
 {
 	Command::sendCommand(this->sock, "PASV"); // send login
+	this->ServerResponse();
+}
+char * Connection::user()
+{
+	return this->login;
 }
