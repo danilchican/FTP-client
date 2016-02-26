@@ -25,7 +25,6 @@ void Control::setControl(Commands command)
 					delete c1;
 					c1 = NULL;
 				}
-					
 				else
 				{
 					cout << "User " << c1->user() << " logged in" << endl;
@@ -49,6 +48,17 @@ void Control::setControl(Commands command)
 		break;
 	case COMMAND_ERROR:
 		cout << "Command not found" << endl;
+		break;
+	case EXIT:
+		if (c1 != NULL)
+		{
+			c1->Close(); // Close connection
+			delete c1;
+			c1 = NULL;
+			cout << "Clear filled resources..." << endl;
+		}
+		cout << "Closing console..." << endl;
+		Sleep(2000);
 		break;
 	default:
 

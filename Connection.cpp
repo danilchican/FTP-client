@@ -34,7 +34,8 @@ bool Connection::Connect()
 	{
 		struct hostent *host = gethostbyname(this->ftpHost); // Get host by name
 		
-		if (host == NULL) throw "Can't find host...";
+		if (host == NULL) 
+			throw "Can't find host...";
 	
 		cout << "Host name: " << host->h_name << endl;
 

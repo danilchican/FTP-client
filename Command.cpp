@@ -45,6 +45,8 @@ Commands Command::getCommandByStroke(const char *command)
 		return DISCONNECT;
 	else if (!strcmp(command, "clear"))
 		return CLEAR_CONSOLE;
+	else if (!strcmp(command, "exit"))
+		return EXIT;
 	else
 		return COMMAND_ERROR;
 }
