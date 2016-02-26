@@ -4,13 +4,13 @@ using namespace std;
 Connection::Connection() 
 {
 	cout << "  HOST: ";
-	cin >> this->ftpHost;
+	strcpy_s(this->ftpHost, 80, Checkout<char *>::stroke());
 	cout << "  PORT: ";
-	cin >> this->port;
+	this->port = Checkout<unsigned int>::integer(0, 8080);
 	cout << "  USER: ";
-	cin >> this->login;
+	strcpy_s(this->login, 80, Checkout<char *>::stroke());
 	cout << "  PASS: ";
-	cin >> this->password;
+	strcpy_s(this->password, 80, Checkout<char *>::stroke());
 }
 Connection::Connection(const char *ftpHost, unsigned int port, const char *login, const char *pass) : port(port)
 {

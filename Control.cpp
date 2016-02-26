@@ -27,7 +27,7 @@ void Control::setControl(Commands command)
 				}
 				else
 				{
-					cout << "User " << c1->user() << " logged in" << endl;
+					cout << "User " << c1->user() << " logged in" << endl; // to complete
 					c1->SetPassiveMode();
 				}	
 			}
