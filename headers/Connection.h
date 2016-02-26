@@ -9,8 +9,10 @@ public:
 	Connection();
 	Connection(const char *ftpHost, unsigned int port, const char *login, const char *pass);
 	bool Connect();
-	bool Authorisation();
+	bool Authorisation(); // to complete for check
 	bool Close();
+	void ServerResponse();
+	void SetPassiveMode();
 private:
 	void quit(); 
 };

@@ -15,7 +15,6 @@ void CommandLine::setData()
 	getline(cin, cmdLine);
 	this->cmd = new char[cmdLine.length() + 1];
 	strcpy_s(this->cmd, cmdLine.length() + 1, cmdLine.c_str());
-	cout << this->cmd << endl;
 }
 const char * CommandLine::getRequest()
 {

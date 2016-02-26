@@ -4,8 +4,7 @@
 
 WSADATA ws;
 
-// host: vh60.hoster.by
-// port: 21
+// host: vh60.hoster.by, port: 21
 
 int main()
 {
@@ -21,7 +20,6 @@ int main()
 
 	} while (true);
 
-		
 	WSACleanup(); // Clear filled resources for WinSock
 
 	return 0;

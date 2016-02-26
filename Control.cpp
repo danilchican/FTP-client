@@ -21,8 +21,8 @@ void Control::setControl(Commands command)
 					cout << "Cannot connect to host." << endl;
 				else
 					cout << "" << endl;
-			}
-				
+			}	
+
 		}
 		break;
 	case DISCONNECT:

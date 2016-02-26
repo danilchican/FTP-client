@@ -7,7 +7,7 @@ Connection::Connection()
 	cin >> this->ftpHost;
 	cout << "  PORT: ";
 	cin >> this->port;
-	cout << "  LOGIN: ";
+	cout << "  USER: ";
 	cin >> this->login;
 	cout << "  PASS: ";
 	cin >> this->password;
@@ -72,7 +72,10 @@ bool Connection::Authorisation()
 	strcat_s(passData, length + 6, password);
 
 	Command::sendCommand(this->sock, userData); // send login
+	this->ServerResponse();
 	Command::sendCommand(this->sock, passData); // send pass
+	this->ServerResponse();
+	this->ServerResponse();
 
 	return true;
 }
@@ -87,4 +90,19 @@ bool Connection::Close() // close connection
 void Connection::quit() // send QUIT command
 {
 	Command::sendCommand(this->sock, "QUIT");
+}
+void Connection::ServerResponse()
+{
+	char *string = 0;
+	char aa[256] = { '/0' };
+
+	int ii = recv(this->sock, aa, sizeof(aa), 0);
+	if (string != 0)
+		strcpy_s(string,sizeof(aa), aa);
+
+	cout << "Response: " << aa << endl;
+}
+void Connection::SetPassiveMode()
+{
+	Command::sendCommand(this->sock, "PASV"); // send login
 }

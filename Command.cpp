@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void Command::sendCommand(SOCKET sock, char *command)
+void Command::sendCommand(SOCKET sock, const char *command)
 {
 	int length = strlen(command);
 	char *buffer = new char[length + 3];
