@@ -29,6 +29,7 @@ void Control::setControl(Commands command)
 				{
 					cout << "User " << c1->user() << " logged in" << endl; // to complete
 					c1->SetPassiveMode();
+					c2 = new Connection(c1->IPHost(), c1->activePort());
 				}	
 			}
 		}
@@ -37,8 +38,9 @@ void Control::setControl(Commands command)
 		if (c1 != NULL)
 		{
 			c1->Close(); // Close connection
-			delete c1;
+			delete c1, c2;
 			c1 = NULL;
+			c2 = NULL;
 		}
 		else
 			cout << "Connection already closed." << endl;
@@ -53,8 +55,8 @@ void Control::setControl(Commands command)
 		if (c1 != NULL)
 		{
 			c1->Close(); // Close connection
-			delete c1;
-			c1 = NULL;
+			delete c1, c2;
+			c1 = NULL; c2 = NULL;
 			cout << "Clear filled resources..." << endl;
 		}
 		cout << "Closing console..." << endl;

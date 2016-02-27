@@ -12,11 +12,9 @@ Connection::Connection()
 	cout << "  PASS: ";
 	strcpy_s(this->password, 80, Checkout<char *>::stroke());
 }
-Connection::Connection(const char *ftpHost, unsigned int port, const char *login, const char *pass) : port(port)
+Connection::Connection(const char *ipHost, unsigned int active_port) : active_port(active_port)
 {
-	strcpy_s(this->ftpHost, ftpHost);
-	strcpy_s(this->login, login);
-	strcpy_s(this->password, pass);
+	strcpy_s(this->ftpHost, ipHost);
 }
 bool Connection::Connect()
 {
@@ -71,14 +69,24 @@ bool Connection::Authorisation()
 	char *passData = new char[length + 7];
 	strcpy_s(passData, length + 6, "PASS ");
 	strcat_s(passData, length + 6, password);
+	try
+	{
+		Command::sendCommand(this->sock, userData); // send login
+		this->ServerResponse();
+		Command::sendCommand(this->sock, passData); // send pass
+		this->ServerResponse();
 
-	Command::sendCommand(this->sock, userData); // send login
-	this->ServerResponse();
-	Command::sendCommand(this->sock, passData); // send pass
-	this->ServerResponse();
-	this->ServerResponse();
+		int code = ResponseHandler::getCodeResponse(this->ServerResponse());
+		cout << "code: " << code << endl;
+		ResponseHandler::handler(code);
 
-	return true;
+		return true;
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+		return false;
+	}
 }
 bool Connection::Close() // close connection
 {
@@ -93,17 +101,16 @@ void Connection::quit() // send QUIT command
 	Command::sendCommand(this->sock, "QUIT");
 	this->ServerResponse();
 }
-void Connection::ServerResponse()
+char * Connection::ServerResponse()
 {
-	char *string = 0;
 	char aa[256] = { '/0' };
 
 	int ii = recv(this->sock, aa, sizeof(aa), 0);
+	strcpy_s(this->response, sizeof(aa), aa);
 
-	if (string != 0)
-		strcpy_s(string,sizeof(aa), aa);
+	cout << "Response: " << response << endl;
 
-	cout << "Response: " << aa << endl;
+	return this->response;
 }
 void Connection::SetPassiveMode()
 {
@@ -157,9 +164,18 @@ void Connection::SetIPForActiveMode()
 	token = strtok(NULL, ",");
 	int intB = atoi(token);  // 13
 
+	strcpy(this->ipHost, szIP);
 	this->active_port = (intA * 256) + intB;
 }
 char * Connection::user()
 {
 	return this->login;
+}
+char * Connection::IPHost()
+{
+	return this->ipHost;
+}
+unsigned int Connection::activePort()
+{
+	return this->active_port;
 }

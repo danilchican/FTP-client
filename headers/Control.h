@@ -1,6 +1,6 @@
 class Control
 {
-	Connection *c1;
+	Connection *c1, *c2;
 public:
 	Control() : c1(NULL)
 	{};
