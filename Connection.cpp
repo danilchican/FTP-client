@@ -69,6 +69,7 @@ bool Connection::Authorisation()
 	char *passData = new char[length + 7];
 	strcpy_s(passData, length + 6, "PASS ");
 	strcat_s(passData, length + 6, password);
+	
 	try
 	{
 		Command::sendCommand(this->sock, userData); // send login
@@ -90,16 +91,27 @@ bool Connection::Authorisation()
 }
 bool Connection::Close() // close connection
 {
-	this->quit(); // calling quit() method
+	try
+	{
+		this->quit(); // calling quit() method
+		
+		closesocket(this->sock); // Close current socket
 
-	closesocket(this->sock); // Close current socket
-	
-	return true;
+		return true;
+		
+	}
+	catch (char *message)
+	{
+		cout << message << endl;
+		closesocket(this->sock); // Close current socket
+		return false;
+	}
 }
 void Connection::quit() // send QUIT command
 {
 	Command::sendCommand(this->sock, "QUIT");
-	this->ServerResponse();
+	int code = ResponseHandler::getCodeResponse(this->ServerResponse());
+	ResponseHandler::handler(code);
 }
 char * Connection::ServerResponse()
 {

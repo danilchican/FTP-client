@@ -37,6 +37,7 @@ void Control::setControl(Commands command)
 	case DISCONNECT:
 		if (c1 != NULL)
 		{
+			cout << "Disconnection..." << endl;
 			c1->Close(); // Close connection
 			delete c1, c2;
 			c1 = NULL;
@@ -60,7 +61,6 @@ void Control::setControl(Commands command)
 			cout << "Clear filled resources..." << endl;
 		}
 		cout << "Closing console..." << endl;
-		Sleep(2000);
 		break;
 	default:
 

@@ -19,6 +19,9 @@ int main()
 		control->setControl(Command::getCommandByStroke(cmd->getRequest()));
 	} while (Command::getCommandByStroke(cmd->getRequest()) != EXIT);
 
+	delete cmd, control;
+	Sleep(2000);
+
 	WSACleanup(); // Clear filled resources for WinSock
 
 	return 0;
