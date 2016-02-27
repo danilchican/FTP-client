@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <iostream>
 
-enum Commands { CONNECT, DISCONNECT, COMMAND_ERROR, CLEAR_CONSOLE, EXIT };
+enum Commands { CONNECT, DISCONNECT, CURRENT_DIR, MAKE_DIR, COMMAND_ERROR, CLEAR_CONSOLE, EXIT };
 
 #include "Command.h"
 #include "Connection.h"
@@ -11,3 +11,4 @@ enum Commands { CONNECT, DISCONNECT, COMMAND_ERROR, CLEAR_CONSOLE, EXIT };
 #include "Control.h"
 #include "Checkout.h"
 #include "ResponseHandler.h"
+#include "Directory.h"

@@ -43,6 +43,10 @@ Commands Command::getCommandByStroke(const char *command)
 		return CONNECT;
 	else if (!strcmp(command, "disconnect"))
 		return DISCONNECT;
+	else if (!strcmp(command, "mkdir"))
+		return MAKE_DIR;
+	else if (!strcmp(command, "cdir"))
+		return CURRENT_DIR;
 	else if (!strcmp(command, "clear"))
 		return CLEAR_CONSOLE;
 	else if (!strcmp(command, "exit"))

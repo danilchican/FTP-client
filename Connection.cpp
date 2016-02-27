@@ -191,3 +191,7 @@ unsigned int Connection::activePort()
 {
 	return this->active_port;
 }
+SOCKET Connection::getSock()
+{
+	return this->sock;
+}

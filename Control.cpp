@@ -46,6 +46,12 @@ void Control::setControl(Commands command)
 		else
 			cout << "Connection already closed." << endl;
 		break;
+	case CURRENT_DIR:
+		Directory::currentDirectory(c1);
+		break;
+	case MAKE_DIR:
+		Directory::makeDirectory(c1);
+		break;
 	case CLEAR_CONSOLE:
 		system("cls");
 		break;
@@ -63,7 +69,6 @@ void Control::setControl(Commands command)
 		cout << "Closing console..." << endl;
 		break;
 	default:
-
 		break;
 	}
 }

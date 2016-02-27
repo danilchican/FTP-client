@@ -20,6 +20,7 @@ public:
 	char * user();
 	char * IPHost();
 	unsigned int activePort();
+	SOCKET getSock();
 private:
 	void quit(); 
 };
