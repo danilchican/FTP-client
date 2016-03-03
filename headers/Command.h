@@ -1,6 +1,6 @@
 class Command
 {
 public:
-	void static sendCommand(SOCKET sock, const char *command);
-	Commands static getCommandByStroke(const char *command);
+	static void sendCommand(SOCKET sock, const char *command);
+	static Commands getCommandByStroke(const char *command);
 };

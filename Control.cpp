@@ -30,9 +30,11 @@ void Control::setControl(Commands command)
 					cout << "User " << c1->user() << " logged in" << endl; // to complete
 					c1->SetPassiveMode();
 					c2 = new Connection(c1->IPHost(), c1->activePort());
-				}	
+				}
 			}
 		}
+		else
+			cout << "You have already connection" << endl;
 		break;
 	case DISCONNECT:
 		if (c1 != NULL)
@@ -51,6 +53,9 @@ void Control::setControl(Commands command)
 		break;
 	case MAKE_DIR:
 		Directory::makeDirectory(c1);
+		break;
+	case HELP:
+		Helper::Commands();
 		break;
 	case CLEAR_CONSOLE:
 		system("cls");

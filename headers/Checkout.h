@@ -2,8 +2,8 @@ template <class Type>
 class Checkout
 {
 public:
-	Type static stroke();
-	Type static integer(int from, int to);
+	static Type stroke();
+	static Type integer(int from, int to);
 };
 
 template <class Type>
