@@ -14,5 +14,5 @@ void Directory::currentDirectory(Connection *c1)
 	char cdir[255];
 	strcpy_s(cdir, 255, ResponseHandler::processingCurrentDirectory(c1->ServerResponse()));
 	
-	cout << "Current directory: " << cdir << endl;
+	cout << "Current directory: " << "\""<< cdir << "\"" << endl;
 }

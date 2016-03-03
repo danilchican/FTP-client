@@ -5,7 +5,7 @@ using namespace std;
 
 void Helper::Commands()
 {
-	char commands[7][2][80] =
+	char commands[COUNT_COMMANDS][2][80] =
 	{
 		{ "connect", "Create connection to your host" },
 		{ "disconnect", "Destroy created session" },
