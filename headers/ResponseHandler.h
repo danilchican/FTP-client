@@ -1,6 +1,7 @@
 class ResponseHandler
 {
 public:
-	unsigned int static getCodeResponse(const char *request);
-	void static handler(int code);
+	static unsigned int getCodeResponse(const char *request);
+	static void handler(int code);
+	static char * processingCurrentDirectory(char *response);
 };

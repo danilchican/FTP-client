@@ -18,6 +18,6 @@ void Helper::Commands()
 
 	cout << "Commands: " << endl;
 
-	for (int i = 0; i < COUNT_COMMANDS; i++)
-		cout << "   " << setw(15) << left << commands[i][0] << "   " << commands[i][1] << endl; // display commands and description
+	for (int i = 0; i < COUNT_COMMANDS; i++) // display commands and description
+		cout << "   " << setw(15) << left << commands[i][0] << "   " << commands[i][1] << endl; 
 }

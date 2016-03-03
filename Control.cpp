@@ -49,10 +49,16 @@ void Control::setControl(Commands command)
 			cout << "Connection already closed." << endl;
 		break;
 	case CURRENT_DIR:
-		Directory::currentDirectory(c1);
+		if (c1 != NULL)
+			Directory::currentDirectory(c1);
+		else
+			cout << "Does not have any connection." << endl;
 		break;
 	case MAKE_DIR:
-		Directory::makeDirectory(c1);
+		if (c1 != NULL)
+			Directory::makeDirectory(c1);
+		else
+			cout << "Does not have any connection." << endl;
 		break;
 	case HELP:
 		Helper::Commands();

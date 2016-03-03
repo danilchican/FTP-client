@@ -10,5 +10,9 @@ void Directory::makeDirectory(Connection *c1)
 void Directory::currentDirectory(Connection *c1)
 {
 	Command::sendCommand(c1->getSock(), "PWD");
-	c1->ServerResponse();
+
+	char cdir[255];
+	strcpy_s(cdir, 255, ResponseHandler::processingCurrentDirectory(c1->ServerResponse()));
+	
+	cout << "Current directory: " << cdir << endl;
 }

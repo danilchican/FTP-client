@@ -78,7 +78,7 @@ bool Connection::Authorisation()
 		this->ServerResponse();
 
 		int code = ResponseHandler::getCodeResponse(this->ServerResponse());
-		cout << "code: " << code << endl;
+		// cout << "code: " << code << endl;
 		ResponseHandler::handler(code);
 
 		return true;
