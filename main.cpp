@@ -18,7 +18,8 @@ int main()
 		cmd->setCommandLine();
 
 		if (control->haveAny(cmd->getRequest()))
-			control->setControlWithParams(Command::getCommandByStroke(cmd->getRequest(), true), Command::getCommandLineArguments(cmd->getRequest()));
+			control->setControlWithParams(Command::getCommandByStroke(cmd->getRequest(), true), 
+			Command::getCommandLineArguments(cmd->getRequest()));
 		else
 			control->setControl(Command::getCommandByStroke(cmd->getRequest(), false));
 	

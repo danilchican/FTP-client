@@ -11,16 +11,16 @@ class Connection
 public:
 	Connection();
 	Connection(const char *ipHost, unsigned int active_port);
-	bool Connect();
+	bool Connect(); // connect to server
 	bool Authorisation(); // to complete for check
-	bool Close();
-	char * ServerResponse();
-	void SetPassiveMode();
+	bool Close(); // close server connection
+	char * ServerResponse(); // response from server
+	void SetPassiveMode(); 
 	void SetIPForActiveMode();
-	char * user();
-	char * IPHost();
-	unsigned int activePort();
-	SOCKET getSock();
+	char * user(); // return username
+	char * IPHost(); // return ipHost
+	unsigned int activePort(); // return active port for transfering data
+	SOCKET getSock(); // return current socket
 private:
-	void quit(); 
+	void quit(); // send QUIT command to server for closing connection
 };
