@@ -37,8 +37,15 @@ void Command::sendCommand(SOCKET sock, const char *command)
 	}
 	
 }
-Commands Command::getCommandByStroke(const char *command)
+Commands Command::getCommandByStroke(char *command, bool haveParams)
 {
+	if (haveParams)
+	{
+		char * pch = strtok(command, " -");
+		if (pch != NULL)
+			command = pch;
+	}
+		
 	if (!strcmp(command, "connect"))
 		return CONNECT;
 	else if (!strcmp(command, "disconnect"))
@@ -55,4 +62,34 @@ Commands Command::getCommandByStroke(const char *command)
 		return EXIT;
 	else
 		return COMMAND_ERROR;
+		
+}
+char * Command::getCommandLineArguments(char *cmd)
+{
+	char *arguments = new char[2];
+	arguments[0] = '\0';
+
+	char *commandLine = new char[strlen(cmd) + 1];
+	strcpy_s(commandLine, strlen(cmd) + 1, cmd);
+
+	char *pch = strtok(commandLine, " -=");
+	pch = strtok(NULL, " -=");
+
+	while (pch != NULL)
+	{
+		int length = strlen(arguments) + strlen(pch) + 1;
+		
+		arguments = (char *)realloc(arguments, length + 1);
+		strcat_s(arguments, length, pch);
+		
+		pch = strtok(NULL, " -=");	
+
+		if (pch != NULL)
+		{
+			arguments = (char *)realloc(arguments, strlen(arguments) + 2);
+			strcat_s(arguments, strlen(arguments) + 2, ",");
+		}
+	}
+
+	return arguments;
 }

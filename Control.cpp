@@ -83,3 +83,25 @@ void Control::setControl(Commands command)
 		break;
 	}
 }
+void Control::setControlWithParams(Commands command, char *params)
+{
+	cout << "Good it works. Params: " << endl;
+	cout << params << endl;
+}
+bool Control::haveAny(char *cmd)
+{
+	int countArguments;
+
+	char *commandLine = new char[strlen(cmd) + 1];
+	strcpy_s(commandLine, strlen(cmd) + 1, cmd);
+
+	char *pch = strtok(commandLine, " -");
+
+	for (countArguments = -1; pch != NULL; countArguments++)
+		pch = strtok(NULL, " -");
+
+	if (countArguments > 0)
+		return true;
+	else
+		return false;
+}

@@ -16,8 +16,13 @@ int main()
 	do
 	{
 		cmd->setCommandLine();
-		control->setControl(Command::getCommandByStroke(cmd->getRequest()));
-	} while (Command::getCommandByStroke(cmd->getRequest()) != EXIT);
+
+		if (control->haveAny(cmd->getRequest()))
+			control->setControlWithParams(Command::getCommandByStroke(cmd->getRequest(), true), Command::getCommandLineArguments(cmd->getRequest()));
+		else
+			control->setControl(Command::getCommandByStroke(cmd->getRequest(), false));
+	
+	} while (Command::getCommandByStroke(cmd->getRequest(), true) != EXIT);
 
 	delete cmd, control;
 	Sleep(2000);

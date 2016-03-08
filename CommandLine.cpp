@@ -16,7 +16,7 @@ void CommandLine::setData()
 	this->cmd = new char[cmdLine.length() + 1];
 	strcpy_s(this->cmd, cmdLine.length() + 1, cmdLine.c_str());
 }
-const char * CommandLine::getRequest()
+char * CommandLine::getRequest()
 {
 	return cmd;
 }
