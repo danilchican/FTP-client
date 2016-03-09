@@ -12,18 +12,24 @@ int main()
 	
 	CommandLine *cmd = new CommandLine();
 	Control *control = new Control();
-
+	bool exit = false;
 	do
 	{
 		cmd->setCommandLine();
 
 		if (control->haveAny(cmd->getRequest()))
-			control->setControlWithParams(Command::getCommandByStroke(cmd->getRequest(), true), 
-			Command::getCommandLineArguments(cmd->getRequest()));
+		{
+			control->setControlWithParams(Command::getCommandByStroke(cmd->getRequest(), true),
+				Command::getCommandLineArguments(cmd->getRequest()));
+
+			exit = false;
+		}
 		else
+		{
 			control->setControl(Command::getCommandByStroke(cmd->getRequest(), false));
-	
-	} while (Command::getCommandByStroke(cmd->getRequest(), true) != EXIT);
+			exit = true;
+		}			
+	} while ((Command::getCommandByStroke(cmd->getRequest(), false) != EXIT) || !exit);
 
 	delete cmd, control;
 	Sleep(2000);

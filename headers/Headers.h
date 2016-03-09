@@ -4,7 +4,10 @@
 #include <iostream>
 
 enum Commands { CONNECT, DISCONNECT, CURRENT_DIR, MAKE_DIR, COMMAND_ERROR, CLEAR_CONSOLE, HELP, EXIT };
+
 #define COUNT_COMMANDS 7 
+#define PARAMS_NOT_REQUIRED "Parameters aren't required for this command"
+#define ONLY_ONE_PARAM "Command have only one param. See -help."
 
 #include "Command.h"
 #include "Connection.h"

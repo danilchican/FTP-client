@@ -56,7 +56,7 @@ void Control::setControl(Commands command)
 		break;
 	case MAKE_DIR:
 		if (c1 != NULL)
-			Directory::makeDirectory(c1);
+			cout << ONLY_ONE_PARAM << endl;
 		else
 			cout << "Does not have any connection." << endl;
 		break;
@@ -87,6 +87,40 @@ void Control::setControlWithParams(Commands command, char *params)
 {
 	cout << "Good it works. Params: " << endl;
 	cout << params << endl;
+	switch (command)
+	{
+	case CONNECT:
+		break;
+	case DISCONNECT:
+		cout << PARAMS_NOT_REQUIRED << endl;
+		break;
+	case CURRENT_DIR:
+		cout << PARAMS_NOT_REQUIRED << endl;
+		break;
+	case MAKE_DIR:
+		if (c1 != NULL)
+		{
+			if (!Directory::checkoutMakeDirParams(params))
+				cout << ONLY_ONE_PARAM << endl;
+			else
+				Directory::makeDirectory(c1, params);
+		}
+		else
+			cout << "Does not have any connection." << endl;
+		break;
+	case COMMAND_ERROR:
+		break;
+	case CLEAR_CONSOLE:
+		cout << PARAMS_NOT_REQUIRED << endl;
+		break;
+	case HELP:
+		break;
+	case EXIT:
+		cout << PARAMS_NOT_REQUIRED << endl;
+		break;
+	default:
+		break;
+	}
 }
 bool Control::haveAny(char *cmd)
 {
