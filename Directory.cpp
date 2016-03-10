@@ -67,10 +67,48 @@ void Directory::removeDirectory(Connection *c1, char *path)
 }
 void Directory::moveUp(Connection *c1)
 {
-	Command::sendCommand(c1->getSock(), "CDUP");
+	try
+	{
+		Command::sendCommand(c1->getSock(), "CDUP");
 
-	char cdir[255];
-	strcpy_s(cdir, 255, ResponseHandler::processingCurrentDirectory(c1->ServerResponse()));
+		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		ResponseHandler::handler(code);
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+	}
+}
+void Directory::list(Connection *c1, Connection *c2)
+{
+	try
+	{
+		Command::sendCommand(c1->getSock(), "LIST");
+		
+		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		ResponseHandler::handler(code);
+
+		char text[SIZE_BUFF] = { '/0' };
+
+		int no_of_bytes;
+
+		while ((no_of_bytes = recv(c2->getSock(), text, SIZE_BUFF, 0)) > 0)
+		{
+			text[no_of_bytes - 1] = '\0';
+			cout << text;
+			fflush(stdout);
+		}
+		cout << endl;
+
+		c2->CloseSocket();
+
+		code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		ResponseHandler::handler(code);
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+	}
 }
 bool Directory::checkoutMakeDirParams(char *params)
 {

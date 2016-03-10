@@ -28,8 +28,6 @@ void Control::setControl(Commands command)
 				else
 				{
 					cout << "User " << c1->user() << " logged in" << endl; // to complete
-					c1->SetPassiveMode();
-					c2 = new Connection(c1->IPHost(), c1->activePort());
 				}
 			}
 		}
@@ -51,6 +49,17 @@ void Control::setControl(Commands command)
 	case CURRENT_DIR:
 		if (c1 != NULL)
 			Directory::currentDirectory(c1);
+		else
+			cout << "Does not have any connection." << endl;
+		break;
+	case LIST:
+		if (c1 != NULL)
+		{
+			c1->SetPassiveMode();
+			c2 = new Connection(c1->IPHost(), c1->activePort());
+			c2->Connect();
+			Directory::list(c1, c2);
+		}
 		else
 			cout << "Does not have any connection." << endl;
 		break;

@@ -58,6 +58,8 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		return MOVE_UP;
 	else if (!strcmp(command, "rmdir"))
 		return DELETE_DIR;
+	else if (!strcmp(command, "ls"))
+		return LIST;
 	else if (!strcmp(command, "cd"))
 		return CHANGE_DIR;
 	else if (!strcmp(command, "status"))

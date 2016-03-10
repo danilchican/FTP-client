@@ -12,7 +12,7 @@ Connection::Connection()
 	cout << "  PASS: ";
 	strcpy_s(this->password, 80, Checkout<char *>::stroke());
 }
-Connection::Connection(const char *ipHost, unsigned int active_port) : active_port(active_port)
+Connection::Connection(const char *ipHost, unsigned int active_port) : port(active_port)
 {
 	strcpy_s(this->ftpHost, ipHost);
 }
@@ -95,7 +95,7 @@ bool Connection::Close() // close connection
 	{
 		this->quit(); // calling quit() method
 		
-		closesocket(this->sock); // Close current socket
+		this->CloseSocket(); // Close current socket
 
 		return true;
 		
@@ -103,7 +103,7 @@ bool Connection::Close() // close connection
 	catch (char *message)
 	{
 		cout << message << endl;
-		closesocket(this->sock); // Close current socket
+		this->CloseSocket(); // Close current socket
 		return false;
 	}
 }
@@ -193,6 +193,10 @@ void Connection::SetIPForActiveMode()
 
 	strcpy(this->ipHost, szIP);
 	this->active_port = (intA * 256) + intB;
+}
+void Connection::CloseSocket()
+{
+	closesocket(this->sock);
 }
 char * Connection::user()
 {

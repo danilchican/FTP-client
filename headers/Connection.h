@@ -15,13 +15,14 @@ public:
 	bool Authorisation(); // to complete for check
 	bool Close(); // close server connection
 	char * ServerResponse(); // response from server
+	void CloseSocket(); // close socket
 	void SetPassiveMode(); 
 	void SetIPForActiveMode();
+	void status(); // returns general status information about the FTP server process
 	char * user(); // return username
 	char * IPHost(); // return ipHost
 	unsigned int activePort(); // return active port for transfering data
 	SOCKET getSock(); // return current socket
-	void status(); // returns general status information about the FTP server process
 private:
 	void quit(); // send QUIT command to server for closing connection
 };
