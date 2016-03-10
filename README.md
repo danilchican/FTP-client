@@ -2,9 +2,7 @@
 FTP-client based on winSocket for Windows
 
 ## Install
-Download the repository or make it clone.
-
-Via Git:
+Clone the repo via git:
 ```
 $ git clone https://github.com/danilchican/FTP-client.git
 ```
