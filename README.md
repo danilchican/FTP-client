@@ -13,6 +13,7 @@ $ git clone https://github.com/danilchican/FTP-client.git
 * connect - Create connection to your host
 * disconnect - Destroy created session
 * mkdir - Create new directory
+* rmdir - Deletes the named directory on the remote host.
 * cd - Change current directory
 * cdir - Return current directory
 * help - Display available commands
