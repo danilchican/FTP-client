@@ -65,6 +65,13 @@ void Directory::removeDirectory(Connection *c1, char *path)
 		cout << "Handler: " << message << endl;
 	}
 }
+void Directory::moveUp(Connection *c1)
+{
+	Command::sendCommand(c1->getSock(), "CDUP");
+
+	char cdir[255];
+	strcpy_s(cdir, 255, ResponseHandler::processingCurrentDirectory(c1->ServerResponse()));
+}
 bool Directory::checkoutMakeDirParams(char *params)
 {
 	int countArguments = 0;

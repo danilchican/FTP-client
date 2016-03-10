@@ -41,7 +41,7 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 {
 	if (haveParams)
 	{
-		char * pch = strtok(command, " -");
+		char * pch = strtok(command, " ");
 		if (pch != NULL)
 			command = pch;
 	}
@@ -54,10 +54,14 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		return MAKE_DIR;
 	else if (!strcmp(command, "cdir"))
 		return CURRENT_DIR;
+	else if (!strcmp(command, "up"))
+		return MOVE_UP;
 	else if (!strcmp(command, "rmdir"))
 		return DELETE_DIR;
 	else if (!strcmp(command, "cd"))
 		return CHANGE_DIR;
+	else if (!strcmp(command, "status"))
+		return STATUS;
 	else if (!strcmp(command, "help"))
 		return HELP;
 	else if (!strcmp(command, "clear"))
@@ -76,8 +80,8 @@ char * Command::getCommandLineArguments(char *cmd)
 	char *commandLine = new char[strlen(cmd) + 1];
 	strcpy_s(commandLine, strlen(cmd) + 1, cmd);
 
-	char *pch = strtok(commandLine, " -=");
-	pch = strtok(NULL, " -=");
+	char *pch = strtok(commandLine, " ");
+	pch = strtok(NULL, " ");
 
 	while (pch != NULL)
 	{
@@ -86,7 +90,7 @@ char * Command::getCommandLineArguments(char *cmd)
 		arguments = (char *)realloc(arguments, length + 1);
 		strcat_s(arguments, length, pch);
 		
-		pch = strtok(NULL, " -=");	
+		pch = strtok(NULL, " ");	
 
 		if (pch != NULL)
 		{

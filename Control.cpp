@@ -75,6 +75,18 @@ void Control::setControl(Commands command)
 	case HELP:
 		Helper::Commands();
 		break;
+	case MOVE_UP:
+		if (c1 != NULL)
+			Directory::moveUp(c1);
+		else
+			cout << "Does not have any connection." << endl;
+		break;
+	case STATUS:
+		if (c1 != NULL)
+			c1->status();
+		else
+			cout << "Does not have any connection." << endl;
+		break;
 	case CLEAR_CONSOLE:
 		system("cls");
 		break;
@@ -130,6 +142,12 @@ void Control::setControlWithParams(Commands command, char *params)
 		}
 		else
 			cout << "Does not have any connection." << endl;
+		break;
+	case MOVE_UP:
+		cout << PARAMS_NOT_REQUIRED << endl;
+		break;
+	case STATUS:
+		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case DELETE_DIR:
 		if (c1 != NULL)

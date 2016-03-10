@@ -11,9 +11,11 @@ void Helper::Commands()
 		{ "disconnect", "Destroy created session" },
 		{ "mkdir", "Create new directory" },
 		{ "cd", "Change current directory" },
-		{ "rmdir", "Deletes the named directory on the remote host." },
+		{ "up", "Moves up to the parent directory" },
+		{ "rmdir", "Deletes the named directory on the remote host" },
 		{ "cdir", "Return current directory" },
 		{ "help", "Display available commands" },
+		{ "status", "Returns general status information about the FTP server process" },
 		{ "clear", "Clear console screen" },
 		{ "exit", "Exit from programm" }
 	};

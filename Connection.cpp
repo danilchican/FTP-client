@@ -113,6 +113,21 @@ void Connection::quit() // send QUIT command
 	int code = ResponseHandler::getCodeResponse(this->ServerResponse());
 	ResponseHandler::handler(code);
 }
+void Connection::status()
+{
+	try
+	{
+		Command::sendCommand(this->sock, "STAT"); // status without params
+		int code = ResponseHandler::getCodeResponse(this->ServerResponse());
+
+		cout << this->ServerResponse() << endl;
+		ResponseHandler::handler(code);
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+	}
+}
 char * Connection::ServerResponse()
 {
 	char aa[256] = { '/0' };

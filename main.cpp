@@ -28,6 +28,7 @@ int main()
 	CommandLine *cmd = new CommandLine();
 	Control *control = new Control();
 	bool exit = false;
+
 	do
 	{
 		cmd->setCommandLine();
