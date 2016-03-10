@@ -54,6 +54,8 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		return MAKE_DIR;
 	else if (!strcmp(command, "cdir"))
 		return CURRENT_DIR;
+	else if (!strcmp(command, "cd"))
+		return CHANGE_DIR;
 	else if (!strcmp(command, "help"))
 		return HELP;
 	else if (!strcmp(command, "clear"))

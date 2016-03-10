@@ -15,11 +15,14 @@ void ResponseHandler::handler(int code)
 {
 	switch (code)
 	{
+	case 0:
+		throw "Timeout... Connection lost";
+		break;
 	case 530:
 		throw "Login is incorrect";
 		break;
-	case 0:
-		throw "Timeout... Connection lost";
+	case 550:
+		throw "No such file or directory";
 		break;
 	default:
 		break;

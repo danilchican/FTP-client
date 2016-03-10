@@ -9,7 +9,22 @@ WSADATA ws;
 int main()
 {
 	WSAStartup(0x101, &ws); // Initialize the process of wsock32.dll library
-	
+
+	/////////////////////////////////////////////////////
+	char arr[51], i;
+	memset(arr, ' ', 50);
+	arr[50] = '\0';
+	for (i = 0; i <= 50; i++)                               // progress bar
+	{
+		printf_s("[%s] %i%%\r", arr, i * 2);
+		fflush(stdout);
+		arr[i] = '#'; 
+		Sleep(50);
+	}
+	std::cout << std::endl;
+	/////////////////////////////////////////////////////
+
+
 	CommandLine *cmd = new CommandLine();
 	Control *control = new Control();
 	bool exit = false;
