@@ -5,4 +5,5 @@ public:
 	static void makeDirectory(Connection *c1, char *path); // to complete
 	static bool checkoutMakeDirParams(char *params); // checkout one param
 	static void changeDirectory(Connection *c1, char *path); // change current directory
+	static void removeDirectory(Connection *c1, char *path); // remove the remote directory
 };

@@ -47,6 +47,24 @@ void Directory::changeDirectory(Connection *c1, char *path)
 		cout << "Handler: " << message << endl;
 	}
 }
+void Directory::removeDirectory(Connection *c1, char *path)
+{
+	try
+	{
+		char *command = new char[strlen(path) + 5];
+
+		strcpy_s(command, 5, "RMD ");
+		strcat_s(command, strlen(command) + strlen(path) + 1, path);
+
+		Command::sendCommand(c1->getSock(), command);
+		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		ResponseHandler::handler(code);
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+	}
+}
 bool Directory::checkoutMakeDirParams(char *params)
 {
 	int countArguments = 0;

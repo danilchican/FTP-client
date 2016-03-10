@@ -66,6 +66,12 @@ void Control::setControl(Commands command)
 		else
 			cout << "Does not have any connection." << endl;
 		break;
+	case DELETE_DIR:
+		if (c1 != NULL)
+			cout << ONLY_ONE_PARAM << endl;
+		else
+			cout << "Does not have any connection." << endl;
+		break;
 	case HELP:
 		Helper::Commands();
 		break;
@@ -121,6 +127,17 @@ void Control::setControlWithParams(Commands command, char *params)
 				cout << ONLY_ONE_PARAM << endl;
 			else
 				Directory::changeDirectory(c1, params);
+		}
+		else
+			cout << "Does not have any connection." << endl;
+		break;
+	case DELETE_DIR:
+		if (c1 != NULL)
+		{
+			if (!Directory::checkoutMakeDirParams(params))
+				cout << ONLY_ONE_PARAM << endl;
+			else
+				Directory::removeDirectory(c1, params);
 		}
 		else
 			cout << "Does not have any connection." << endl;

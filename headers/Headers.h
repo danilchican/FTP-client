@@ -3,9 +3,9 @@
 #include <windows.h>
 #include <iostream>
 
-enum Commands { CONNECT, DISCONNECT, CURRENT_DIR, MAKE_DIR, CHANGE_DIR, COMMAND_ERROR, CLEAR_CONSOLE, HELP, EXIT };
+enum Commands { CONNECT, DISCONNECT, CURRENT_DIR, MAKE_DIR, CHANGE_DIR, DELETE_DIR, COMMAND_ERROR, CLEAR_CONSOLE, HELP, EXIT };
 
-#define COUNT_COMMANDS 8 
+#define COUNT_COMMANDS 9 
 #define PARAMS_NOT_REQUIRED "Parameters aren't required for this command"
 #define ONLY_ONE_PARAM "Command have only one param. See -help."
 
