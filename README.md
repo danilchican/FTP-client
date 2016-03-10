@@ -13,6 +13,7 @@ $ git clone https://github.com/danilchican/FTP-client.git
 * connect - Create connection to your host
 * disconnect - Destroy created session
 * mkdir - Create new directory
+* cd - Change current directory
 * cdir - Return current directory
 * help - Display available commands
 * clear - Clear console screen
