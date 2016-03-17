@@ -35,7 +35,7 @@ bool Connection::Connect()
 		if (host == NULL) 
 			throw "Can't find host...";
 	
-		cout << "Host name: " << host->h_name << endl;
+		//cout << "Host name: " << host->h_name << endl;
 
 		sockInfo.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)host->h_addr))); // Get the IP-address of our ftp
 	}
@@ -118,9 +118,8 @@ void Connection::status()
 	try
 	{
 		Command::sendCommand(this->sock, "STAT"); // status without params
-		int code = ResponseHandler::getCodeResponse(this->ServerResponse());
 
-		cout << this->ServerResponse() << endl;
+		int code = ResponseHandler::getCodeResponse(this->ServerResponse());
 		ResponseHandler::handler(code);
 	}
 	catch (char *message)

@@ -59,6 +59,8 @@ void Control::setControl(Commands command)
 			c2 = new Connection(c1->IPHost(), c1->activePort());
 			c2->Connect();
 			Directory::list(c1, c2);
+
+			delete c2;
 		}
 		else
 			cout << "Does not have any connection." << endl;
@@ -120,6 +122,7 @@ void Control::setControlWithParams(Commands command, char *params)
 {
 	cout << "Good it works. Params: " << endl;
 	cout << params << endl;
+
 	switch (command)
 	{
 	case CONNECT:
@@ -155,8 +158,34 @@ void Control::setControlWithParams(Commands command, char *params)
 	case MOVE_UP:
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
+	case LIST:
+		cout << PARAMS_NOT_REQUIRED << endl;
+		break;
 	case STATUS:
 		cout << PARAMS_NOT_REQUIRED << endl;
+		break;
+	case DOWNLOAD_FILE:
+		if (c1 != NULL)
+		{
+			c1->SetPassiveMode();
+			c2 = new Connection(c1->IPHost(), c1->activePort());
+			File *file;
+			try
+			{
+				file = new File(c1, c2, params);
+
+				if (!file->download())
+					cout << "Cannot download file..." << endl;
+			}
+			catch (char *message)
+			{
+				cout << "Handler: " << message << endl;
+			}
+			
+			delete c2, file;
+		}
+		else
+			cout << "Does not have any connection." << endl;
 		break;
 	case DELETE_DIR:
 		if (c1 != NULL)
@@ -170,11 +199,13 @@ void Control::setControlWithParams(Commands command, char *params)
 			cout << "Does not have any connection." << endl;
 		break;
 	case COMMAND_ERROR:
+		cout << "Command not found" << endl;
 		break;
 	case CLEAR_CONSOLE:
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case HELP:
+		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case EXIT:
 		cout << PARAMS_NOT_REQUIRED << endl;
@@ -194,9 +225,6 @@ bool Control::haveAny(char *cmd)
 
 	for (countArguments = -1; pch != NULL; countArguments++)
 		pch = strtok(NULL, " -");
-
-	if (countArguments > 0)
-		return true;
-	else
-		return false;
+	
+	return (countArguments > 0) ? true : false;
 }

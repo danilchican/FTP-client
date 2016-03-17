@@ -88,13 +88,14 @@ void Directory::list(Connection *c1, Connection *c2)
 		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
 		ResponseHandler::handler(code);
 
-		char text[SIZE_BUFF] = { '/0' };
+		char *text = new char[SIZE_BUFF + 1];
+		text[0] = '\0';
 
 		int no_of_bytes;
 
 		while ((no_of_bytes = recv(c2->getSock(), text, SIZE_BUFF, 0)) > 0)
 		{
-			text[no_of_bytes - 1] = '\0';
+			text[no_of_bytes] = '\0';
 			cout << text;
 			fflush(stdout);
 		}

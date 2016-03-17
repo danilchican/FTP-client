@@ -3,12 +3,12 @@
 #include <windows.h>
 #include <iostream>
 
-enum Commands { CONNECT, DISCONNECT, STATUS, LIST,
+enum Commands { CONNECT, DISCONNECT, STATUS, LIST, DOWNLOAD_FILE,
 				CURRENT_DIR, MAKE_DIR, MOVE_UP, CHANGE_DIR, DELETE_DIR,
 				COMMAND_ERROR, CLEAR_CONSOLE, HELP, EXIT };
 
-#define COUNT_COMMANDS 12
-#define SIZE_BUFF 256
+#define COUNT_COMMANDS 13
+#define SIZE_BUFF 1048576
 #define PARAMS_NOT_REQUIRED "Parameters aren't required for this command"
 #define ONLY_ONE_PARAM "Command have only one param. See -help."
 
@@ -19,4 +19,5 @@ enum Commands { CONNECT, DISCONNECT, STATUS, LIST,
 #include "Checkout.h"
 #include "ResponseHandler.h"
 #include "Directory.h"
+#include "File.h"
 #include "Helper.h"
