@@ -138,60 +138,77 @@ char * Connection::ServerResponse()
 
 	return this->response;
 }
-void Connection::SetPassiveMode()
+bool Connection::SetPassiveMode()
 {
 	Command::sendCommand(this->sock, "PASV"); // send login
-	this->SetIPForActiveMode();
+	if (this->SetIPForActiveMode())
+		return true;
+	else
+		return false;
 }
-void Connection::SetIPForActiveMode()
+bool Connection::SetIPForActiveMode()
 {
-	char *string = 0;
-	char aa[256] = { '/0' };
+	try
+	{
+		char *string = 0;
+		char aa[256] = { '/0' };
+		int ii = 0;
 
-	int ii = recv(this->sock, aa, sizeof(aa), 0);
-	if (string != 0)
-		strcpy_s(string, sizeof(aa), aa);
+		ii = recv(this->sock, aa, sizeof(aa), 0);
+		if (string != 0)
+			strcpy_s(string, sizeof(aa), aa);
 
-	cout << "Response: " << aa << endl;
+		if (ii == 0 || ii == -1)
+			throw "Connection lost...";
 
-	// Lets extract the string "216,92,6,187,194,13"
-	char szIP[40];
-	char* start = strchr(aa, '(');
-	char* end = strchr(aa, ')');
-	int num = end - start;
+		cout << "Response: " << aa << endl;
 
-	char str[30] = { '\0' };
-	strncpy_s(str, start + 1, num - 1);
+		// Lets extract the string "216,92,6,187,194,13"
+		char szIP[40];
+		char* start = strchr(aa, '(');
+		char* end = strchr(aa, ')');
+		int num = end - start;
 
-	// str now contains "216,92,6,187,194,13"
-	char* token = strtok(str, ",");
+		char str[30] = { '\0' };
+		strncpy_s(str, start + 1, num - 1);
 
-	// Lets break the string up using the ',' character as a seperator
-	// Lets get the IP address from the string.
-	strcpy(szIP, "");
-	strcat(szIP, token);
-	strcat(szIP, ".");  //szIP contains "216."
+		// str now contains "216,92,6,187,194,13"
+		char* token = strtok(str, ",");
 
-	token = strtok(NULL, ",");
-	strcat(szIP, token);
-	strcat(szIP, ".");  //szIP contains "216.92."
+		// Lets break the string up using the ',' character as a seperator
+		// Lets get the IP address from the string.
+		strcpy(szIP, "");
+		strcat(szIP, token);
+		strcat(szIP, ".");  //szIP contains "216."
 
-	token = strtok(NULL, ",");
-	strcat(szIP, token);
-	strcat(szIP, "."); // szIP contains "216.92.6."
+		token = strtok(NULL, ",");
+		strcat(szIP, token);
+		strcat(szIP, ".");  //szIP contains "216.92."
 
-	token = strtok(NULL, ",");
-	strcat(szIP, token);// szIP contains "216.92.6.187"
+		token = strtok(NULL, ",");
+		strcat(szIP, token);
+		strcat(szIP, "."); // szIP contains "216.92.6."
 
-	// Now lets get the port number
-	token = strtok(NULL, ",");
-	int intA = atoi(token);  // 194
+		token = strtok(NULL, ",");
+		strcat(szIP, token);// szIP contains "216.92.6.187"
 
-	token = strtok(NULL, ",");
-	int intB = atoi(token);  // 13
+		// Now lets get the port number
+		token = strtok(NULL, ",");
+		int intA = atoi(token);  // 194
 
-	strcpy(this->ipHost, szIP);
-	this->active_port = (intA * 256) + intB;
+		token = strtok(NULL, ",");
+		int intB = atoi(token);  // 13
+
+		strcpy(this->ipHost, szIP);
+		this->active_port = (intA * 256) + intB;
+
+		return true;
+	}
+	catch (char *message)
+	{
+		cout << message << endl;
+	}
+	return false;
 }
 void Connection::CloseSocket()
 {

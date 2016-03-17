@@ -55,12 +55,16 @@ void Control::setControl(Commands command)
 	case LIST:
 		if (c1 != NULL)
 		{
-			c1->SetPassiveMode();
-			c2 = new Connection(c1->IPHost(), c1->activePort());
-			c2->Connect();
-			Directory::list(c1, c2);
+			if (c1->SetPassiveMode())
+			{
+				c2 = new Connection(c1->IPHost(), c1->activePort());
+				c2->Connect();
+				Directory::list(c1, c2);
 
-			delete c2;
+				delete c2;
+			}
+			else
+				cout << "Cannot connect to server..." << endl;
 		}
 		else
 			cout << "Does not have any connection." << endl;
@@ -167,22 +171,27 @@ void Control::setControlWithParams(Commands command, char *params)
 	case DOWNLOAD_FILE:
 		if (c1 != NULL)
 		{
-			c1->SetPassiveMode();
-			c2 = new Connection(c1->IPHost(), c1->activePort());
-			File *file;
-			try
+			if (c1->SetPassiveMode())
 			{
-				file = new File(c1, c2, params);
+				c2 = new Connection(c1->IPHost(), c1->activePort());
+				File *file;
+				try
+				{
+					file = new File(c1, c2, params);
 
-				if (!file->download())
-					cout << "Cannot download file..." << endl;
+					if (!file->download())
+						cout << "Cannot download file..." << endl;
+				}
+				catch (char *message)
+				{
+					cout << "Handler: " << message << endl;
+				}
+
+				delete c2, file;
 			}
-			catch (char *message)
-			{
-				cout << "Handler: " << message << endl;
-			}
+			else
+				cout << "Reconnect to server, please." << endl;
 			
-			delete c2, file;
 		}
 		else
 			cout << "Does not have any connection." << endl;

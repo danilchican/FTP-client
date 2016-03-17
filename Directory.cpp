@@ -95,6 +95,8 @@ void Directory::list(Connection *c1, Connection *c2)
 
 		while ((no_of_bytes = recv(c2->getSock(), text, SIZE_BUFF, 0)) > 0)
 		{
+			if (no_of_bytes == -1)
+				throw "Connection lost...";
 			text[no_of_bytes] = '\0';
 			cout << text;
 			fflush(stdout);

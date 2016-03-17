@@ -16,8 +16,8 @@ public:
 	bool Close(); // close server connection
 	char * ServerResponse(); // response from server
 	void CloseSocket(); // close socket
-	void SetPassiveMode(); 
-	void SetIPForActiveMode();
+	bool SetPassiveMode(); 
+	bool SetIPForActiveMode();
 	void status(); // returns general status information about the FTP server process
 	char * user(); // return username
 	char * IPHost(); // return ipHost

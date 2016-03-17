@@ -129,6 +129,9 @@ bool File::downloadProcess()
 		
 		for (int i = 0; (no_of_bytes = recv(c2->getSock(), text, SIZE_BUFF, 0)) > 0; )
 		{
+			if (no_of_bytes == -1)
+				throw "Cannot connect to server...";
+
 			text[no_of_bytes] = '\0';
 
 			ofstream fout(this->fileName, ios::binary | ios::app );
@@ -154,7 +157,7 @@ bool File::downloadProcess()
 	}
 	catch (char *message)
 	{
-		cout << "Handler: " << message << endl;
+		cout << "\nHandler: " << message << endl;
 	}
 
 	return false;
