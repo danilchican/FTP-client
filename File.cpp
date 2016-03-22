@@ -2,7 +2,7 @@
 #include <fstream>
 using namespace std;
 
-File::File(Connection *c1, Connection *c2, char *params) : bytes(0)
+File::File(Connection *c1, Connection *c2, char *params) : bytes(0), path(NULL)
 {
 	char *commandLine = new char[strlen(params) + 1];
 	strcpy_s(commandLine, strlen(params) + 1, params);
@@ -80,6 +80,7 @@ bool File::download()
 			return false;
 		else
 		{
+			this->setPath();
 			if (!(this->downloadProcess()))
 				return false;
 
@@ -92,6 +93,62 @@ bool File::download()
 		return false;
 	}
 	
+}
+void File::setPath()
+{
+	char *dirName = strtok(this->arguments, ",");
+
+	int length = strlen(dirName) + strlen(this->fileName) + 2;
+	this->path = new char[length];
+
+	strcpy(this->path, dirName);
+	strcat(this->path, "\\");
+	strcat(this->path, this->fileName);
+}
+bool File::checkoutDownloadParams(char *params)
+{
+	int countArguments = 0;
+
+
+	char *arg = new char[strlen(params) + 1];
+	strcpy(arg, params);
+
+	char *pch = strtok(arg, ",");
+
+	for (countArguments = 0; pch != NULL; countArguments++)
+		pch = strtok(NULL, ",");
+
+	if (countArguments == 2)
+		return true;
+	
+	else
+		return false;
+}
+bool File::hasDirectory(char *params)
+{
+	if (!File::checkoutDownloadParams(params))
+	{
+		cout << "You haven't all params to download.\nSee --help. dd [file] [path]" << endl;
+		return false;
+	}		
+
+	char buff[255];
+	strcpy(buff, params);
+
+	char *dirName = strtok(buff, ",");
+	
+	for (int countArguments = 0; dirName != NULL && countArguments != 1; countArguments++)
+		dirName = strtok(NULL, ",");
+	
+	DWORD ftyp = GetFileAttributesA(dirName);
+	if (ftyp == INVALID_FILE_ATTRIBUTES)
+	{
+		cout << "Directory is not correct" << endl; 
+		return false;  //something is wrong with your path!
+	}
+
+	if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
+		return true;   // this is a directory!
 }
 void File::setFileSize(char *res)
 {
@@ -125,6 +182,9 @@ bool File::downloadProcess()
 		memset(arr, ' ', 20);
 		arr[20] = '\0';
 
+		ofstream fout(this->path, ios_base::trunc);
+		fout.close();
+
 		long double cup = 0;
 		int start = 0;
 		
@@ -135,7 +195,7 @@ bool File::downloadProcess()
 
 			text[no_of_bytes] = '\0';
 
-			ofstream fout(this->fileName, ios::binary | ios::app );
+			ofstream fout(this->path, ios::binary | ios::app );
 			fout.write(text, no_of_bytes);
 			fout.close();
 			
@@ -145,6 +205,7 @@ bool File::downloadProcess()
 			
 			for (i = start; i <= cup; i++)
 			{
+				Sleep(50);
 				fflush(stdin);
 				if (i)
 					arr[i-1] = '#';

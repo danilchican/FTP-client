@@ -52,6 +52,12 @@ void Control::setControl(Commands command)
 		else
 			cout << "Does not have any connection." << endl;
 		break;
+	case DOWNLOAD_FILE:
+		if (c1 != NULL)
+			cout << "You haven't all params to download.\nSee --help. dd [file] [path]" << endl;
+		else
+			cout << "Does not have any connection." << endl;
+		break;
 	case LIST:
 		if (c1 != NULL)
 		{
@@ -180,27 +186,31 @@ void Control::setControlWithParams(Commands command, char *params)
 	case DOWNLOAD_FILE:
 		if (c1 != NULL)
 		{
-			if (c1->SetPassiveMode())
+			if (File::hasDirectory(params))
 			{
-				c2 = new Connection(c1->IPHost(), c1->activePort());
-				File *file;
-				try
+				if (c1->SetPassiveMode())
 				{
-					file = new File(c1, c2, params);
+					c2 = new Connection(c1->IPHost(), c1->activePort());
+					File *file = NULL;
+					try
+					{
+						file = new File(c1, c2, params);
 
-					if (!file->download())
-						cout << "Cannot download file..." << endl;
-				}
-				catch (char *message)
-				{
-					cout << "Handler: " << message << endl;
-				}
+						if (!file->download())
+							cout << "Cannot download file..." << endl;
+					}
+					catch (char *message)
+					{
+						cout << "Handler: " << message << endl;
+					}
 
-				delete c2, file;
-			}
-			else
-				cout << "Reconnect to server, please." << endl;
-			
+					c2->CloseSocket();
+
+					delete c2, file;
+				}
+				else
+					cout << "Reconnect to server, please." << endl;
+			}				
 		}
 		else
 			cout << "Does not have any connection." << endl;
