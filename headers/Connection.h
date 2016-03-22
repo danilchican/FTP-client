@@ -12,6 +12,7 @@ public:
 	Connection();
 	Connection(const char *ipHost, unsigned int active_port);
 	bool Connect(); // connect to server
+	void Reconnect(); // reconnect to server
 	bool Authorisation(); // to complete for check
 	bool Close(); // close server connection
 	char * ServerResponse(); // response from server

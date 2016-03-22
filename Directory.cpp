@@ -25,9 +25,45 @@ void Directory::currentDirectory(Connection *c1)
 	Command::sendCommand(c1->getSock(), "PWD");
 
 	char cdir[255];
-	strcpy_s(cdir, 255, ResponseHandler::processingCurrentDirectory(c1->ServerResponse()));
+
+	strcpy_s(cdir, 255, Directory::processingCurrentDirectory(c1->ServerResponse()));
+
+	cout << "Current directory: " << "\"" << cdir << "\"" << endl;	
+}
+char * Directory::processingCurrentDirectory(char *resp)
+{
+	char current[255];
+
+	bool got_in = false,
+		got_out = false;
+
+	int start = 0, end = 0, 
+		length = strlen(resp);
 	
-	cout << "Current directory: " << "\""<< cdir << "\"" << endl;
+	for (int i = 0; i < length && !got_in; i++)
+	{
+		if (resp[i] == '"')
+		{
+			got_in = true;
+			start = i + 1;
+			for (int j = i + 1; j < length && !got_out; j++)
+			{
+				if (resp[j] == '"')
+				{
+					got_out = true;
+					end = j;
+				}
+			}
+		}
+	}
+
+	int i = 0;
+	for (i = 0; i < end - start; i++)
+		current[i] = resp[start + i];
+		
+	current[i] = '\0';
+
+	return current;
 }
 void Directory::changeDirectory(Connection *c1, char *path)
 {

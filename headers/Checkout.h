@@ -26,7 +26,7 @@ template <class Type>
 Type Checkout<Type>::stroke()
 {
 	char stroke[80];
-	bool flag = false;
+	bool flag = true;
 
 	cin.clear(); 
 	cin.sync(); 

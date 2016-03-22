@@ -75,6 +75,12 @@ void Control::setControl(Commands command)
 		else
 			cout << "Does not have any connection." << endl;
 		break;
+	case RECONNECT:
+		if (c1 != NULL)
+			c1->Reconnect();
+		else
+			cout << "Does not have any connection." << endl;
+		break;
 	case CHANGE_DIR:
 		if (c1 != NULL)
 			cout << ONLY_ONE_PARAM << endl;
@@ -124,8 +130,8 @@ void Control::setControl(Commands command)
 }
 void Control::setControlWithParams(Commands command, char *params)
 {
-	cout << "Good it works. Params: " << endl;
-	cout << params << endl;
+	//cout << "Good it works. Params: " << endl;
+	//cout << params << endl;
 
 	switch (command)
 	{
@@ -163,6 +169,9 @@ void Control::setControlWithParams(Commands command, char *params)
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case LIST:
+		cout << PARAMS_NOT_REQUIRED << endl;
+		break;
+	case RECONNECT:
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case STATUS:

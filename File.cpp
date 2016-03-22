@@ -121,11 +121,12 @@ bool File::downloadProcess()
 		int cout_received_bytes = 0;
 		char *text = new char[SIZE_BUFF + 1];
 
-		char arr[51], i;
-		memset(arr, ' ', 50);
-		arr[50] = '\0';
+		char arr[21], i;
+		memset(arr, ' ', 20);
+		arr[20] = '\0';
 
 		long double cup = 0;
+		int start = 0;
 		
 		for (int i = 0; (no_of_bytes = recv(c2->getSock(), text, SIZE_BUFF, 0)) > 0; )
 		{
@@ -140,12 +141,16 @@ bool File::downloadProcess()
 			
 			cout_received_bytes += no_of_bytes;
 
-			cup = 50 * cout_received_bytes / this->bytes;
-			for (i = 0; i <= cup; i++)
+			cup = 20 * cout_received_bytes / this->bytes;
+			
+			for (i = start; i <= cup; i++)
 			{
-				arr[i] = '#';
-				printf_s("[%s] %i%% (%i/%llu bytes)\r", arr, i * 2, cout_received_bytes, this->bytes);
+				fflush(stdin);
+				if (i)
+					arr[i-1] = '#';
+				printf_s("[%s] %i%% (%i/%llu bytes)\r", arr, i * 5, cout_received_bytes, this->bytes);
 			}		
+			start = i;
 		}
 		cout << endl;
 		c2->CloseSocket();

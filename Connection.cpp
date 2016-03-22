@@ -58,6 +58,21 @@ bool Connection::Connect()
 
 	return true;
 }
+void Connection::Reconnect()
+{
+	if (!this->Connect()) // Connect to host by socket 
+		cout << "Cannot connect to host" << endl;
+	else
+	{
+		cout << "Connected to host\nStarting authorisation..." << endl;
+		if (!this->Authorisation())
+			cout << "Cannot connect to host." << endl;
+		else
+		{
+			cout << "User " << this->user() << " logged in" << endl; // to complete
+		}
+	}
+}
 bool Connection::Authorisation()
 {
 	int length = strlen(login);
@@ -119,8 +134,9 @@ void Connection::status()
 	{
 		Command::sendCommand(this->sock, "STAT"); // status without params
 
-		int code = ResponseHandler::getCodeResponse(this->ServerResponse());
-		ResponseHandler::handler(code);
+		ResponseHandler::getCodeResponse(this->ServerResponse());
+		ResponseHandler::getCodeResponse(this->ServerResponse());
+	
 	}
 	catch (char *message)
 	{

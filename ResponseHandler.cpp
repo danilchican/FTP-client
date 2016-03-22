@@ -31,36 +31,3 @@ void ResponseHandler::handler(int code)
 		break;
 	}
 }
-char * ResponseHandler::processingCurrentDirectory(char *response)
-{
-	// Lets extract the string '"/" Current directory'
-
-	char cdir[255] = { '\0' };
-	bool got_in = false,
-		 got_out = false;
-	int start = 0, end = 0;
-
-	int length = strlen(response);
-
-	for (int i = 0; i < length && !got_in; i++)
-	{
-		if (response[i] == '"')
-		{
-			got_in = true;
-			start = i + 1;
-			for (int j = i + 1; j < length && !got_out; j++)
-			{
-				if (response[j] == '"')
-				{
-					got_out = true;
-					end = j;
-				}
-			}
-		}
-	}
-
-	for (int i = 0; i < end - start; i++)
-		cdir[i] = response[start + i];
-
-	return cdir;
-}

@@ -2,6 +2,7 @@ class Directory
 {
 public:
 	static void currentDirectory(Connection *c1); // display current directory on server
+	static char * processingCurrentDirectory(char *resp); // processing server response stroke with directory
 	static void moveUp(Connection *c1); // Moves up to the parent directory
 	static void makeDirectory(Connection *c1, char *path); // to complete
 	static bool checkoutMakeDirParams(char *params); // checkout one param

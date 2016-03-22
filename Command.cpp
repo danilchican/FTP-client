@@ -48,6 +48,8 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		
 	if (!strcmp(command, "connect"))
 		return CONNECT;
+	else if (!strcmp(command, "reconnect"))
+		return RECONNECT;
 	else if (!strcmp(command, "disconnect"))
 		return DISCONNECT;
 	else if (!strcmp(command, "mkdir"))

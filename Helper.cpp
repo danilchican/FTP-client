@@ -8,6 +8,7 @@ void Helper::Commands()
 	char commands[COUNT_COMMANDS][2][80] =
 	{
 		{ "connect", "Create connection to your host" },
+		{ "reconnect", "Connect to exists host" },
 		{ "disconnect", "Destroy created session" },
 		{ "mkdir", "Create new directory" },
 		{ "rmdir", "Deletes the named directory on the remote host" },
