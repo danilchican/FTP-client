@@ -21,3 +21,4 @@ enum Commands { CONNECT, DISCONNECT, STATUS, LIST, DOWNLOAD_FILE, RECONNECT,
 #include "Directory.h"
 #include "File.h"
 #include "Helper.h"
+#include "sqlite3.h"

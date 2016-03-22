@@ -26,9 +26,7 @@ void Control::setControl(Commands command)
 					c1 = NULL;
 				}
 				else
-				{
 					cout << "User " << c1->user() << " logged in" << endl; // to complete
-				}
 			}
 		}
 		else
@@ -142,6 +140,7 @@ void Control::setControlWithParams(Commands command, char *params)
 	switch (command)
 	{
 	case CONNECT:
+		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case DISCONNECT:
 		cout << PARAMS_NOT_REQUIRED << endl;

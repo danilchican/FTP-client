@@ -109,7 +109,6 @@ bool File::checkoutDownloadParams(char *params)
 {
 	int countArguments = 0;
 
-
 	char *arg = new char[strlen(params) + 1];
 	strcpy(arg, params);
 
@@ -118,11 +117,7 @@ bool File::checkoutDownloadParams(char *params)
 	for (countArguments = 0; pch != NULL; countArguments++)
 		pch = strtok(NULL, ",");
 
-	if (countArguments == 2)
-		return true;
-	
-	else
-		return false;
+	return (countArguments == 2) ? true : false;
 }
 bool File::hasDirectory(char *params)
 {
@@ -144,11 +139,11 @@ bool File::hasDirectory(char *params)
 	if (ftyp == INVALID_FILE_ATTRIBUTES)
 	{
 		cout << "Directory is not correct" << endl; 
-		return false;  //something is wrong with your path!
+		return false; 
 	}
 
 	if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
-		return true;   // this is a directory!
+		return true;   
 }
 void File::setFileSize(char *res)
 {

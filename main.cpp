@@ -29,13 +29,13 @@ int main()
 			control->setControl(Command::getCommandByStroke(cmd->getRequest(), false));
 			exit = true;
 		}
+
 	} while ((Command::getCommandByStroke(cmd->getRequest(), false) != EXIT) || !exit);
 
 	delete cmd, control;
-	Sleep(2000);
+	Sleep(1000);
 
 	WSACleanup(); // Clear filled resources for WinSock
 	
-		
 	return 0;
 }
