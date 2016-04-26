@@ -62,6 +62,8 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		return DELETE_DIR;
 	else if (!strcmp(command, "dd"))
 		return DOWNLOAD_FILE;
+	else if (!strcmp(command, "ud"))
+		return UPLOAD_FILE;
 	else if (!strcmp(command, "ls"))
 		return LIST;
 	else if (!strcmp(command, "cd"))

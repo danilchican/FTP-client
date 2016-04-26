@@ -56,6 +56,12 @@ void Control::setControl(Commands command)
 		else
 			cout << "Does not have any connection." << endl;
 		break;
+	case UPLOAD_FILE:
+		if (c1 != NULL)
+			cout << "You haven't all params to uploading file.\nSee --help. ud [file] [path]" << endl;
+		else
+			cout << "Does not have any connection." << endl;
+		break;
 	case LIST:
 		if (c1 != NULL)
 		{
@@ -134,9 +140,6 @@ void Control::setControl(Commands command)
 }
 void Control::setControlWithParams(Commands command, char *params)
 {
-	//cout << "Good it works. Params: " << endl;
-	//cout << params << endl;
-
 	switch (command)
 	{
 	case CONNECT:
@@ -210,6 +213,38 @@ void Control::setControlWithParams(Commands command, char *params)
 				else
 					cout << "Reconnect to server, please." << endl;
 			}				
+		}
+		else
+			cout << "Does not have any connection." << endl;
+		break;
+	case UPLOAD_FILE:
+		if (c1 != NULL)
+		{
+			if (File::hasFileInSystem(params))
+			{
+				if (c1->SetPassiveMode())
+				{
+					c2 = new Connection(c1->IPHost(), c1->activePort());
+					File *file = NULL;
+					try
+					{
+						file = new File(c1, c2, params);
+
+						if (!file->upload())
+							cout << "Cannot download file..." << endl;
+					}
+					catch (char *message)
+					{
+						cout << "Handler: " << message << endl;
+					}
+
+					c2->CloseSocket();
+
+					delete c2, file;
+				}
+				else
+					cout << "Reconnect to server, please." << endl;
+			}
 		}
 		else
 			cout << "Does not have any connection." << endl;

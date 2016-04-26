@@ -38,19 +38,25 @@ File::File(Connection *c1, Connection *c2, char *params) : bytes(0), path(NULL)
 	}
 
 }
-bool File::find()
+bool File::find(bool is_upload)
 {
 	try 
 	{
 		char *command = new char[strlen(fileName) + 6];
 		command[0] = '\0';
-
-		strcat(command, "RETR ");
-		strcat(command, fileName);
+		if (is_upload)
+		{
+			strcat(command, "STOR ");
+			strcat(command, fileName);
+		}
+		else
+		{
+			strcat(command, "RETR ");
+			strcat(command, fileName);
+		}
 
 		Command::sendCommand(c1->getSock(), "TYPE I");
 		ResponseHandler::getCodeResponse(c1->ServerResponse());
-
 
 		Command::sendCommand(c1->getSock(), command);
 
@@ -61,7 +67,14 @@ bool File::find()
 		int code = ResponseHandler::getCodeResponse(response);
 		ResponseHandler::handler(code);
 
-		this->setFileSize(response);
+		if (!is_upload)
+			this->setFileSize(response, true);
+		else 
+		{
+			this->setPath();
+			this->setFileSize(response, false);
+		}
+
 
 		return true;
 	}
@@ -76,7 +89,7 @@ bool File::download()
 {
 	try
 	{
-		if (!this->find())
+		if (!this->find(false))
 			return false;
 		else
 		{
@@ -92,7 +105,26 @@ bool File::download()
 		cout << "Handler: " << message << endl;
 		return false;
 	}
-	
+}
+bool File::upload()
+{
+	try
+	{
+		if (!this->find(true))
+			return false;
+		else
+		{
+			if (!(this->uploadProcess()))
+				return false;
+
+			return true;
+		}
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+		return false;
+	}
 }
 void File::setPath()
 {
@@ -106,6 +138,20 @@ void File::setPath()
 	strcat(this->path, this->fileName);
 }
 bool File::checkoutDownloadParams(char *params)
+{
+	int countArguments = 0;
+
+	char *arg = new char[strlen(params) + 1];
+	strcpy(arg, params);
+
+	char *pch = strtok(arg, ",");
+
+	for (countArguments = 0; pch != NULL; countArguments++)
+		pch = strtok(NULL, ",");
+
+	return (countArguments == 2) ? true : false;
+}
+bool File::checkoutUploadParams(char *params)
 {
 	int countArguments = 0;
 
@@ -145,25 +191,79 @@ bool File::hasDirectory(char *params)
 	if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
 		return true;   
 }
-void File::setFileSize(char *res)
+bool File::hasFileInSystem(char *params)
 {
-	long long unsigned int size_in_bytes = 0;
+	if (!File::checkoutUploadParams(params))
+	{
+		cout << "You haven't all params to download.\nSee --help. ud [file] [path]" << endl;
+		return false;
+	}
 
-	char *response = new char[strlen(res) + 1];
-	strcpy(response, res);
+	char buff[255];
+	strcpy(buff, params);
 
-	char* start = strchr(response, '(');
-	char* end = strchr(response, ')');
-	int num = end - start;
+	char *fileName, *dirName;
+	char *local = strtok(buff, ",");
+	fileName = new char[strlen(local) + 1];
+	strcpy(fileName, local);
+	local = strtok(NULL, ",");
+	dirName = new char[strlen(local) + 1];
+	strcpy(dirName, local);
 
-	char number[10000] = { '\0' };
+	char *result = new char[strlen(fileName) + strlen(dirName) + 3];
+	strcpy(result, dirName);
+	strcat(result, "\\");
+	strcat(result, fileName);
 
-	strncpy_s(number, start + 1, num - 1);
+	FILE * ptrFile = fopen(result, "r");
 
-	char* token = strtok(number, " ");
+	if (ptrFile == NULL)
+	{
+		cout << "File doesn't exists" << endl;
+		return false;
+	}
+	
+	fclose(ptrFile);
+	
+	return true;
+}
+void File::setFileSize(char *res, bool is_download)
+{
+	if (is_download) {
+		long long unsigned int size_in_bytes = 0;
 
-	for (int i = 0; i < strlen(number); i++)
-		bytes = bytes * 10 + number[i] - '0';
+		char *response = new char[strlen(res) + 1];
+		strcpy(response, res);
+
+		char* start = strchr(response, '(');
+		char* end = strchr(response, ')');
+		int num = end - start;
+
+		char number[10000] = { '\0' };
+
+		strncpy_s(number, start + 1, num - 1);
+
+		char* token = strtok(number, " ");
+
+		for (int i = 0; i < strlen(number); i++)
+			bytes = bytes * 10 + number[i] - '0';
+	} 
+	else 
+	{
+		LPDWORD w = 0;
+		DWORD size_in_bytes = 0;
+		HANDLE HFile;
+
+		wchar_t *wtext = new wchar_t[strlen(this->path)];
+		mbstowcs(wtext, this->path, strlen(this->path) + 1);
+		LPWSTR ptr_file = wtext;
+
+		HFile = CreateFile(ptr_file, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		size_in_bytes = GetFileSize(HFile, NULL);
+
+		this->bytes = size_in_bytes;
+	}
+
 }
 bool File::downloadProcess()
 {
@@ -208,6 +308,73 @@ bool File::downloadProcess()
 			}		
 			start = i;
 		}
+		cout << endl;
+		c2->CloseSocket();
+
+		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		ResponseHandler::handler(code);
+
+		return true;
+	}
+	catch (char *message)
+	{
+		cout << "\nHandler: " << message << endl;
+	}
+
+	return false;
+}
+bool File::uploadProcess()
+{
+	try
+	{
+		DWORD read;
+		HANDLE HFile;
+
+		long  unsigned int no_of_bytes = 0;
+
+		char arr[21], i;
+		char *buffer = new char[SIZE_BUFF + 1];
+
+		long double cup = 0;
+		int start = 0;
+		int cout_sended_bytes = 0;
+
+		memset(arr, ' ', 20);
+		arr[20] = '\0';
+
+		wchar_t *wtext = new wchar_t[strlen(this->path)];
+		mbstowcs(wtext, this->path, strlen(this->path) + 1);  
+		LPWSTR ptr_file = wtext;
+
+		HFile = CreateFile(ptr_file, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+		SetFilePointer(HFile, 0, NULL, FILE_BEGIN);
+
+		for (int i = 0; ReadFile(HFile, buffer, SIZE_BUFF, &read, NULL) && (read > 0);)
+		{
+			if (read == -1)
+				throw "Cannot connect to server...";
+
+			buffer[read] = '\0';
+
+			send(c2->getSock(), buffer, read, 0);
+
+			cout_sended_bytes += read;
+
+			cup = 20 * cout_sended_bytes / this->bytes;
+
+			for (i = start; i <= cup; i++)
+			{
+				Sleep(50);
+				fflush(stdin);
+				if (i)
+					arr[i - 1] = '#';
+				printf_s("[%s] %i%% (%i/%llu bytes)\r", arr, i * 5, cout_sended_bytes, this->bytes);
+			}
+
+			start = i;
+		}
+
 		cout << endl;
 		c2->CloseSocket();
 

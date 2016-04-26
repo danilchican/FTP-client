@@ -14,6 +14,7 @@ void Helper::Commands()
 		{ "rmdir", "Deletes the named directory on the remote host" },
 		{ "cdir", "Return current directory" },
 		{ "dd", "Download the file from the remote host" },
+		{ "ud", "Upload the file from client to the remote host" },
 		{ "cd", "Change current directory" },
 		{ "up", "Moves up to the parent directory" },
 		{ "ls", "Diplay the contents of a current directory" },
