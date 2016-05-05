@@ -10,16 +10,15 @@ $ git clone https://github.com/danilchican/FTP-client.git
 ## Available client commands
 * connect - Create connection to your host
 * disconnect - Destroy created session
-* mkdir - Create new directory
-* rmdir - Deletes the named directory on the remote host
-* cdir - Return current directory
-* dd - Download the file from the remote host
-* ud - Upload the file from client to the remote host
+* pwd - Print working directory
+* mkdir [name] - Create new directory
+* rmdir [name] - Deletes the named directory on the remote host
+* download [file] [path] - Download the file from the remote host
+* upload [file] [path] - Upload the file from client to the remote host
 * cd - Change current directory
 * up - Moves up to the parent directory
 * ls - Diplay the contents of a current directory
 * help - Display available commands
-* status - Returns general status information about the FTP server process
 * clear - Clear console screen
 * exit - Exit from programm
 
