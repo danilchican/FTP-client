@@ -13,19 +13,16 @@ int main()
 	Control *control = new Control();
 	bool exit = false;
 
-	do
-	{
+	do {
 		cmd->setCommandLine();
 
-		if (control->haveAny(cmd->getRequest()))
-		{
+		if (control->haveAny(cmd->getRequest())) {
 			control->setControlWithParams(Command::getCommandByStroke(cmd->getRequest(), true),
 				Command::getCommandLineArguments(cmd->getRequest()));
 
 			exit = false;
-		}
-		else
-		{
+		} 
+		else {
 			control->setControl(Command::getCommandByStroke(cmd->getRequest(), false));
 			exit = true;
 		}

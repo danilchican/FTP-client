@@ -6,15 +6,15 @@ unsigned int ResponseHandler::getCodeResponse(const char *request)
 {
 	unsigned int code = 0;
 
-	for (int i = 0; request[i] >= '0' && request[i] <= '9' ;i++)
-		code = code*10 + request[i] - '0';
+	for (int i = 0; request[i] >= '0' && request[i] <= '9'; i++) {
+		code = code * 10 + request[i] - '0';
+	}
 
 	return code;
 }
 void ResponseHandler::handler(int code)
 {
-	switch (code)
-	{
+	switch (code) {
 	case 421:
 		throw "Timeout... Connection lost";
 		break;
@@ -23,9 +23,6 @@ void ResponseHandler::handler(int code)
 		break;
 	case 530:
 		throw "Login is incorrect";
-		break;
-	case 550:
-		throw "No such file or directory";
 		break;
 	default:
 		break;

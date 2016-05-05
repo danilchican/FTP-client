@@ -18,20 +18,18 @@ File::File(Connection *c1, Connection *c2, char *params) : bytes(0), path(NULL)
 	this->arguments = new char[2];
 	arguments[0] = '\0';
 
-	while (pch != NULL)
-	{
-		if ((pch = strtok(NULL, " ")) != NULL)
-		{
+	while (pch != NULL) {
+		if ((pch = strtok(NULL, " ")) != NULL) {
 			int length = strlen(arguments) + strlen(pch) + 1;
 
 			arguments = (char *)realloc(arguments, length + 1);
 			strcat_s(arguments, length, pch);
 		}
-		else
+		else {
 			break;
+		}
 
-		if ((pch = strtok(NULL, " ")) != NULL)
-		{
+		if ((pch = strtok(NULL, " ")) != NULL) {
 			arguments = (char *)realloc(arguments, strlen(arguments) + 2);
 			strcat_s(arguments, strlen(arguments) + 2, ",");
 		}
@@ -40,17 +38,15 @@ File::File(Connection *c1, Connection *c2, char *params) : bytes(0), path(NULL)
 }
 bool File::find(bool is_upload)
 {
-	try 
-	{
+	try {
 		char *command = new char[strlen(fileName) + 6];
 		command[0] = '\0';
-		if (is_upload)
-		{
+
+		if (is_upload) {
 			strcat(command, "STOR ");
 			strcat(command, fileName);
 		}
-		else
-		{
+		else {
 			strcat(command, "RETR ");
 			strcat(command, fileName);
 		}
@@ -67,14 +63,13 @@ bool File::find(bool is_upload)
 		int code = ResponseHandler::getCodeResponse(response);
 		ResponseHandler::handler(code);
 
-		if (!is_upload)
+		if (!is_upload) {
 			this->setFileSize(response, true);
-		else 
-		{
+		}
+		else {
 			this->setPath();
 			this->setFileSize(response, false);
 		}
-
 
 		return true;
 	}
@@ -87,15 +82,16 @@ bool File::find(bool is_upload)
 }
 bool File::download()
 {
-	try
-	{
-		if (!this->find(false))
+	try {
+		if (!this->find(false)) {
 			return false;
-		else
-		{
+		}
+		else {
 			this->setPath();
-			if (!(this->downloadProcess()))
+
+			if (!(this->downloadProcess())) {
 				return false;
+			}
 
 			return true;
 		}
@@ -108,14 +104,14 @@ bool File::download()
 }
 bool File::upload()
 {
-	try
-	{
-		if (!this->find(true))
+	try	{
+		if (!this->find(true)) {
 			return false;
-		else
-		{
-			if (!(this->uploadProcess()))
+		}
+		else {
+			if (!(this->uploadProcess())) {
 				return false;
+			}
 
 			return true;
 		}
@@ -146,8 +142,9 @@ bool File::checkoutDownloadParams(char *params)
 
 	char *pch = strtok(arg, ",");
 
-	for (countArguments = 0; pch != NULL; countArguments++)
+	for (countArguments = 0; pch != NULL; countArguments++) {
 		pch = strtok(NULL, ",");
+	}
 
 	return (countArguments == 2) ? true : false;
 }
@@ -160,15 +157,15 @@ bool File::checkoutUploadParams(char *params)
 
 	char *pch = strtok(arg, ",");
 
-	for (countArguments = 0; pch != NULL; countArguments++)
+	for (countArguments = 0; pch != NULL; countArguments++) {
 		pch = strtok(NULL, ",");
+	}
 
 	return (countArguments == 2) ? true : false;
 }
 bool File::hasDirectory(char *params)
 {
-	if (!File::checkoutDownloadParams(params))
-	{
+	if (!File::checkoutDownloadParams(params)) {
 		cout << "You haven't all params to download.\nSee --help. dd [file] [path]" << endl;
 		return false;
 	}		
@@ -178,23 +175,24 @@ bool File::hasDirectory(char *params)
 
 	char *dirName = strtok(buff, ",");
 	
-	for (int countArguments = 0; dirName != NULL && countArguments != 1; countArguments++)
+	for (int countArguments = 0; dirName != NULL && countArguments != 1; countArguments++) {
 		dirName = strtok(NULL, ",");
+	}
 	
 	DWORD ftyp = GetFileAttributesA(dirName);
-	if (ftyp == INVALID_FILE_ATTRIBUTES)
-	{
+
+	if (ftyp == INVALID_FILE_ATTRIBUTES) {
 		cout << "Directory is not correct" << endl; 
 		return false; 
 	}
 
-	if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
+	if (ftyp & FILE_ATTRIBUTE_DIRECTORY) {
 		return true;   
+	}
 }
 bool File::hasFileInSystem(char *params)
 {
-	if (!File::checkoutUploadParams(params))
-	{
+	if (!File::checkoutUploadParams(params)) {
 		cout << "You haven't all params to download.\nSee --help. ud [file] [path]" << endl;
 		return false;
 	}
@@ -217,8 +215,7 @@ bool File::hasFileInSystem(char *params)
 
 	FILE * ptrFile = fopen(result, "r");
 
-	if (ptrFile == NULL)
-	{
+	if (ptrFile == NULL) {
 		cout << "File doesn't exists" << endl;
 		return false;
 	}
@@ -245,11 +242,11 @@ void File::setFileSize(char *res, bool is_download)
 
 		char* token = strtok(number, " ");
 
-		for (int i = 0; i < strlen(number); i++)
+		for (int i = 0; i < strlen(number); i++) {
 			bytes = bytes * 10 + number[i] - '0';
+		}
 	} 
-	else 
-	{
+	else {
 		LPDWORD w = 0;
 		DWORD size_in_bytes = 0;
 		HANDLE HFile;
@@ -267,13 +264,13 @@ void File::setFileSize(char *res, bool is_download)
 }
 bool File::downloadProcess()
 {
-	try
-	{
+	try {
+
 		long  unsigned int no_of_bytes = 0;
 		int cout_received_bytes = 0;
 		char *text = new char[SIZE_BUFF + 1];
 
-		char arr[21], i;
+		char arr[21];
 		memset(arr, ' ', 20);
 		arr[20] = '\0';
 
@@ -283,10 +280,11 @@ bool File::downloadProcess()
 		long double cup = 0;
 		int start = 0;
 		
-		for (int i = 0; (no_of_bytes = recv(c2->getSock(), text, SIZE_BUFF, 0)) > 0; )
-		{
-			if (no_of_bytes == -1)
+		for (int i = 0; (no_of_bytes = recv(c2->getSock(), text, SIZE_BUFF, 0)) > 0; ) {
+
+			if (no_of_bytes == -1) {
 				throw "Cannot connect to server...";
+			}
 
 			text[no_of_bytes] = '\0';
 
@@ -298,16 +296,20 @@ bool File::downloadProcess()
 
 			cup = 20 * cout_received_bytes / this->bytes;
 			
-			for (i = start; i <= cup; i++)
-			{
+			for (i = start; i <= cup; i++) {
 				Sleep(50);
 				fflush(stdin);
-				if (i)
+				
+				if (i) {
 					arr[i-1] = '#';
+				}
+
 				printf_s("[%s] %i%% (%i/%llu bytes)\r", arr, i * 5, cout_received_bytes, this->bytes);
 			}		
+
 			start = i;
 		}
+
 		cout << endl;
 		c2->CloseSocket();
 
@@ -325,14 +327,13 @@ bool File::downloadProcess()
 }
 bool File::uploadProcess()
 {
-	try
-	{
+	try	{
 		DWORD read;
 		HANDLE HFile;
 
 		long  unsigned int no_of_bytes = 0;
 
-		char arr[21], i;
+		char arr[21];
 		char *buffer = new char[SIZE_BUFF + 1];
 
 		long double cup = 0;
@@ -350,10 +351,11 @@ bool File::uploadProcess()
 
 		SetFilePointer(HFile, 0, NULL, FILE_BEGIN);
 
-		for (int i = 0; ReadFile(HFile, buffer, SIZE_BUFF, &read, NULL) && (read > 0);)
-		{
-			if (read == -1)
+		for (int i = 0; ReadFile(HFile, buffer, SIZE_BUFF, &read, NULL) && (read > 0);)	{
+
+			if (read == -1) {
 				throw "Cannot connect to server...";
+			}
 
 			buffer[read] = '\0';
 
@@ -367,8 +369,11 @@ bool File::uploadProcess()
 			{
 				Sleep(50);
 				fflush(stdin);
-				if (i)
+				
+				if (i) {
 					arr[i - 1] = '#';
+				}
+
 				printf_s("[%s] %i%% (%i/%llu bytes)\r", arr, i * 5, cout_sended_bytes, this->bytes);
 			}
 

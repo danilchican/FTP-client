@@ -4,8 +4,7 @@ using namespace std;
 
 void Directory::makeDirectory(Connection *c1, char *path)
 {
-	try
-	{
+	try {
 		char *command = new char[strlen(path) + 5];
 	
 		strcpy_s(command, 5, "MKD ");
@@ -40,16 +39,14 @@ char * Directory::processingCurrentDirectory(char *resp)
 	int start = 0, end = 0, 
 		length = strlen(resp);
 	
-	for (int i = 0; i < length && !got_in; i++)
-	{
-		if (resp[i] == '"')
-		{
+	for (int i = 0; i < length && !got_in; i++) {
+
+		if (resp[i] == '"')	{
 			got_in = true;
 			start = i + 1;
-			for (int j = i + 1; j < length && !got_out; j++)
-			{
-				if (resp[j] == '"')
-				{
+
+			for (int j = i + 1; j < length && !got_out; j++) {
+				if (resp[j] == '"')	{
 					got_out = true;
 					end = j;
 				}
@@ -58,8 +55,10 @@ char * Directory::processingCurrentDirectory(char *resp)
 	}
 
 	int i = 0;
-	for (i = 0; i < end - start; i++)
+
+	for (i = 0; i < end - start; i++) {
 		current[i] = resp[start + i];
+	}
 		
 	current[i] = '\0';
 
@@ -67,8 +66,7 @@ char * Directory::processingCurrentDirectory(char *resp)
 }
 void Directory::changeDirectory(Connection *c1, char *path)
 {
-	try
-	{
+	try	{
 		char *command = new char[strlen(path) + 5];
 
 		strcpy_s(command, 5, "CWD ");
@@ -85,8 +83,7 @@ void Directory::changeDirectory(Connection *c1, char *path)
 }
 void Directory::removeDirectory(Connection *c1, char *path)
 {
-	try
-	{
+	try	{
 		char *command = new char[strlen(path) + 5];
 
 		strcpy_s(command, 5, "RMD ");
@@ -103,8 +100,7 @@ void Directory::removeDirectory(Connection *c1, char *path)
 }
 void Directory::moveUp(Connection *c1)
 {
-	try
-	{
+	try	{
 		Command::sendCommand(c1->getSock(), "CDUP");
 
 		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
@@ -117,8 +113,7 @@ void Directory::moveUp(Connection *c1)
 }
 void Directory::list(Connection *c1, Connection *c2)
 {
-	try
-	{
+	try	{
 		Command::sendCommand(c1->getSock(), "LIST");
 		
 		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
@@ -129,10 +124,12 @@ void Directory::list(Connection *c1, Connection *c2)
 
 		int no_of_bytes;
 
-		while ((no_of_bytes = recv(c2->getSock(), text, SIZE_BUFF, 0)) > 0)
-		{
-			if (no_of_bytes == -1)
+		while ((no_of_bytes = recv(c2->getSock(), text, SIZE_BUFF, 0)) > 0)	{
+
+			if (no_of_bytes == -1) {
 				throw "Connection lost...";
+			}
+			
 			text[no_of_bytes] = '\0';
 			cout << text;
 			fflush(stdout);
@@ -159,11 +156,9 @@ bool Directory::checkoutMakeDirParams(char *params)
 
 	char *pch = strtok(arg, " ,");
 
-	for (countArguments = 0; pch != NULL; countArguments++)
+	for (countArguments = 0; pch != NULL; countArguments++) {
 		pch = strtok(NULL, ",");
+	}
 
-	if (countArguments == 1)
-		return true;
-	else
-		return false;
+	return (countArguments == 1) ? true : false;
 }

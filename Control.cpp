@@ -3,120 +3,127 @@ using namespace std;
 
 void Control::setControl(Commands command)
 {
-	switch (command)
-	{
+	switch (command) {
 	case CONNECT:
-		if (c1 == NULL)
-		{
+		if (c1 == NULL) {
 			c1 = new Connection(); // Create new connection without params
 
-			if (!c1->Connect()) // Connect to host by socket 
-			{
+			if (!c1->Connect()) { // Connect to host by socket 
 				cout << "Cannot connect to host" << endl;
 				delete c1;
 				c1 = NULL;
-			}
-			else
-			{
+			} 
+			else {
 				cout << "Connected to host\nStarting authorisation..." << endl;
-				if (!c1->Authorisation())
-				{
+				if (!c1->Authorisation()) {
 					cout << "Cannot connect to host." << endl;
 					delete c1;
 					c1 = NULL;
-				}
-				else
+				} 
+				else {
 					cout << "User " << c1->user() << " logged in" << endl; // to complete
+				}
 			}
 		}
-		else
+		else {
 			cout << "You have already connection" << endl;
+		}	
 		break;
 	case DISCONNECT:
-		if (c1 != NULL)
-		{
+		if (c1 != NULL) {
 			cout << "Disconnection..." << endl;
 			c1->Close(); // Close connection
 			delete c1, c2;
 			c1 = NULL;
 			c2 = NULL;
 		}
-		else
+		else {
 			cout << "Connection already closed." << endl;
+		}
 		break;
 	case CURRENT_DIR:
-		if (c1 != NULL)
+		if (c1 != NULL) {
 			Directory::currentDirectory(c1);
-		else
+		}
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case DOWNLOAD_FILE:
-		if (c1 != NULL)
-			cout << "You haven't all params to download.\nSee --help. dd [file] [path]" << endl;
-		else
+		if (c1 != NULL) {
+			cout << "You haven't all params to download.\nSee --help. download [file] [path]" << endl;
+		}
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case UPLOAD_FILE:
-		if (c1 != NULL)
-			cout << "You haven't all params to uploading file.\nSee --help. ud [file] [path]" << endl;
-		else
+		if (c1 != NULL) {
+			cout << "You haven't all params to uploading file.\nSee --help. upload [file] [path]" << endl;
+		}
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case LIST:
-		if (c1 != NULL)
-		{
-			if (c1->SetPassiveMode())
-			{
+		if (c1 != NULL)	{
+			if (c1->SetPassiveMode()) {
 				c2 = new Connection(c1->IPHost(), c1->activePort());
 				c2->Connect();
 				Directory::list(c1, c2);
 
 				delete c2;
 			}
-			else
+			else {
 				cout << "Cannot connect to server..." << endl;
+			}
 		}
-		else
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case MAKE_DIR:
-		if (c1 != NULL)
+		if (c1 != NULL) {
 			cout << ONLY_ONE_PARAM << endl;
-		else
+		}
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case RECONNECT:
-		if (c1 != NULL)
+		if (c1 != NULL) {
 			c1->Reconnect();
-		else
+		}
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case CHANGE_DIR:
-		if (c1 != NULL)
+		if (c1 != NULL) {
 			cout << ONLY_ONE_PARAM << endl;
-		else
+		}
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case DELETE_DIR:
-		if (c1 != NULL)
+		if (c1 != NULL) {
 			cout << ONLY_ONE_PARAM << endl;
-		else
+		}
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case HELP:
 		Helper::Commands();
 		break;
 	case MOVE_UP:
-		if (c1 != NULL)
+		if (c1 != NULL) {
 			Directory::moveUp(c1);
-		else
+		}
+		else {
 			cout << "Does not have any connection." << endl;
-		break;
-	case STATUS:
-		if (c1 != NULL)
-			c1->status();
-		else
-			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case CLEAR_CONSOLE:
 		system("cls");
@@ -125,8 +132,7 @@ void Control::setControl(Commands command)
 		cout << "Command not found" << endl;
 		break;
 	case EXIT:
-		if (c1 != NULL)
-		{
+		if (c1 != NULL)	{
 			c1->Close(); // Close connection
 			delete c1, c2;
 			c1 = NULL; c2 = NULL;
@@ -140,8 +146,7 @@ void Control::setControl(Commands command)
 }
 void Control::setControlWithParams(Commands command, char *params)
 {
-	switch (command)
-	{
+	switch (command) {
 	case CONNECT:
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
@@ -152,26 +157,30 @@ void Control::setControlWithParams(Commands command, char *params)
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case MAKE_DIR:
-		if (c1 != NULL)
-		{
-			if (!Directory::checkoutMakeDirParams(params))
+		if (c1 != NULL)	{
+			if (!Directory::checkoutMakeDirParams(params)) {
 				cout << ONLY_ONE_PARAM << endl;
-			else
+			}
+			else {
 				Directory::makeDirectory(c1, params);
+			}
 		}
-		else
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case CHANGE_DIR:
-		if (c1 != NULL)
-		{
-			if (!Directory::checkoutMakeDirParams(params))
+		if (c1 != NULL) {
+			if (!Directory::checkoutMakeDirParams(params)) {
 				cout << ONLY_ONE_PARAM << endl;
-			else
+			}
+			else {
 				Directory::changeDirectory(c1, params);
+			}
 		}
-		else
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case MOVE_UP:
 		cout << PARAMS_NOT_REQUIRED << endl;
@@ -182,24 +191,19 @@ void Control::setControlWithParams(Commands command, char *params)
 	case RECONNECT:
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
-	case STATUS:
-		cout << PARAMS_NOT_REQUIRED << endl;
-		break;
 	case DOWNLOAD_FILE:
-		if (c1 != NULL)
-		{
-			if (File::hasDirectory(params))
-			{
-				if (c1->SetPassiveMode())
-				{
+		if (c1 != NULL)	{
+			if (File::hasDirectory(params))	{
+				if (c1->SetPassiveMode()) {
 					c2 = new Connection(c1->IPHost(), c1->activePort());
 					File *file = NULL;
-					try
-					{
+
+					try {
 						file = new File(c1, c2, params);
 
-						if (!file->download())
+						if (!file->download()) {
 							cout << "Cannot download file..." << endl;
+						}
 					}
 					catch (char *message)
 					{
@@ -210,28 +214,28 @@ void Control::setControlWithParams(Commands command, char *params)
 
 					delete c2, file;
 				}
-				else
+				else {
 					cout << "Reconnect to server, please." << endl;
+				}
 			}				
 		}
-		else
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case UPLOAD_FILE:
-		if (c1 != NULL)
-		{
-			if (File::hasFileInSystem(params))
-			{
-				if (c1->SetPassiveMode())
-				{
+		if (c1 != NULL)	{
+			if (File::hasFileInSystem(params)) {
+				if (c1->SetPassiveMode()) {
 					c2 = new Connection(c1->IPHost(), c1->activePort());
 					File *file = NULL;
-					try
-					{
+
+					try	{
 						file = new File(c1, c2, params);
 
-						if (!file->upload())
+						if (!file->upload()) {
 							cout << "Cannot download file..." << endl;
+						}
 					}
 					catch (char *message)
 					{
@@ -242,23 +246,27 @@ void Control::setControlWithParams(Commands command, char *params)
 
 					delete c2, file;
 				}
-				else
+				else {
 					cout << "Reconnect to server, please." << endl;
+				}
 			}
 		}
-		else
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case DELETE_DIR:
-		if (c1 != NULL)
-		{
-			if (!Directory::checkoutMakeDirParams(params))
+		if (c1 != NULL) {
+			if (!Directory::checkoutMakeDirParams(params)) {
 				cout << ONLY_ONE_PARAM << endl;
-			else
+			}
+			else {
 				Directory::removeDirectory(c1, params);
+			}
 		}
-		else
+		else {
 			cout << "Does not have any connection." << endl;
+		}
 		break;
 	case COMMAND_ERROR:
 		cout << "Command not found" << endl;
@@ -285,8 +293,9 @@ bool Control::haveAny(char *cmd)
 
 	char *pch = strtok(commandLine, " -");
 
-	for (countArguments = -1; pch != NULL; countArguments++)
+	for (countArguments = -1; pch != NULL; countArguments++) {
 		pch = strtok(NULL, " -");
+	}
 	
 	return (countArguments > 0) ? true : false;
 }

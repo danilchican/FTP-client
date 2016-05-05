@@ -10,16 +10,16 @@ void Command::sendCommand(SOCKET sock, const char *command)
 	strcpy_s(buffer, length + 1, command);
 	strcat_s(buffer, length + 3, "\r\n");
 
-	try
-	{
+	try	{
 		int backed_code = send(sock, buffer, strlen(buffer), 0);
-		if (backed_code <= 0)
+		
+		if (backed_code <= 0) {
 			throw backed_code;
+		}
 	}
 	catch (int code)
 	{
-		switch (code)
-		{
+		switch (code) {
 		case 0:
 			cout << "Cannot send command. Connection closed..." << endl;
 			break;
@@ -39,11 +39,12 @@ void Command::sendCommand(SOCKET sock, const char *command)
 }
 Commands Command::getCommandByStroke(char *command, bool haveParams)
 {
-	if (haveParams)
-	{
+	if (haveParams)	{
 		char * pch = strtok(command, " ");
-		if (pch != NULL)
+
+		if (pch != NULL) {
 			command = pch;
+		}
 	}
 		
 	if (!strcmp(command, "connect"))
@@ -54,30 +55,29 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		return DISCONNECT;
 	else if (!strcmp(command, "mkdir"))
 		return MAKE_DIR;
-	else if (!strcmp(command, "cdir"))
+	else if (!strcmp(command, "pwd"))
 		return CURRENT_DIR;
 	else if (!strcmp(command, "up"))
 		return MOVE_UP;
 	else if (!strcmp(command, "rmdir"))
 		return DELETE_DIR;
-	else if (!strcmp(command, "dd"))
+	else if (!strcmp(command, "download"))
 		return DOWNLOAD_FILE;
-	else if (!strcmp(command, "ud"))
+	else if (!strcmp(command, "upload"))
 		return UPLOAD_FILE;
 	else if (!strcmp(command, "ls"))
 		return LIST;
 	else if (!strcmp(command, "cd"))
 		return CHANGE_DIR;
-	else if (!strcmp(command, "status"))
-		return STATUS;
 	else if (!strcmp(command, "help"))
 		return HELP;
 	else if (!strcmp(command, "clear"))
 		return CLEAR_CONSOLE;
 	else if (!strcmp(command, "exit"))
 		return EXIT;
-	else
+	else {
 		return COMMAND_ERROR;
+	}
 		
 }
 char * Command::getCommandLineArguments(char *cmd)
@@ -91,8 +91,7 @@ char * Command::getCommandLineArguments(char *cmd)
 	char *pch = strtok(commandLine, " ");
 	pch = strtok(NULL, " ");
 
-	while (pch != NULL)
-	{
+	while (pch != NULL)	{
 		int length = strlen(arguments) + strlen(pch) + 1;
 		
 		arguments = (char *)realloc(arguments, length + 1);
@@ -100,8 +99,7 @@ char * Command::getCommandLineArguments(char *cmd)
 		
 		pch = strtok(NULL, " ");	
 
-		if (pch != NULL)
-		{
+		if (pch != NULL) {
 			arguments = (char *)realloc(arguments, strlen(arguments) + 2);
 			strcat_s(arguments, strlen(arguments) + 2, ",");
 		}

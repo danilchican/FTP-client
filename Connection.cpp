@@ -28,30 +28,25 @@ bool Connection::Connect()
 
 	struct sockaddr_in sockInfo = { AF_INET, htons(port) }; // Set up socket information.
 
-	try
-	{
+	try	{
 		struct hostent *host = gethostbyname(this->ftpHost); // Get host by name
 		
-		if (host == NULL) 
+		if (host == NULL) {
 			throw "Can't find host...";
-	
-		//cout << "Host name: " << host->h_name << endl;
+		}
 
 		sockInfo.sin_addr.s_addr = inet_addr(inet_ntoa(*((struct in_addr *)host->h_addr))); // Get the IP-address of our ftp
 	}
-	catch (char *error)
-	{
+	catch (char *error)	{
 		cout << "Error: " << error << endl;
 		return false;
 	}
-	catch (...)
-	{
+	catch (...)	{
 		cout << "Connect error: " << WSAGetLastError() << endl;
 			return false;
 	};
 	
-	if (connect(this->sock, (sockaddr *)&sockInfo, sizeof(sockInfo))) // Server address got, take connection
-	{
+	if (connect(this->sock, (sockaddr *)&sockInfo, sizeof(sockInfo))) { // Server address got, take connection	
 		cout << "Connect error: " << WSAGetLastError() << endl;
 		return false;
 	}
@@ -60,15 +55,13 @@ bool Connection::Connect()
 }
 void Connection::Reconnect()
 {
-	if (!this->Connect()) // Connect to host by socket 
+	if (!this->Connect()) { // Connect to host by socket 
 		cout << "Cannot connect to host" << endl;
-	else
-	{
+	} else {
 		cout << "Connected to host\nStarting authorisation..." << endl;
-		if (!this->Authorisation())
+		if (!this->Authorisation()) {
 			cout << "Cannot connect to host." << endl;
-		else
-		{
+		} else {
 			cout << "User " << this->user() << " logged in" << endl; // to complete
 		}
 	}
@@ -85,15 +78,13 @@ bool Connection::Authorisation()
 	strcpy_s(passData, length + 6, "PASS ");
 	strcat_s(passData, length + 6, password);
 	
-	try
-	{
+	try {
 		Command::sendCommand(this->sock, userData); // send login
 		this->ServerResponse();
 		Command::sendCommand(this->sock, passData); // send pass
 		this->ServerResponse();
 
 		int code = ResponseHandler::getCodeResponse(this->ServerResponse());
-		// cout << "code: " << code << endl;
 		ResponseHandler::handler(code);
 
 		return true;
@@ -106,14 +97,12 @@ bool Connection::Authorisation()
 }
 bool Connection::Close() // close connection
 {
-	try
-	{
+	try	{
 		this->quit(); // calling quit() method
 		
 		this->CloseSocket(); // Close current socket
 
 		return true;
-		
 	}
 	catch (char *message)
 	{
@@ -127,21 +116,6 @@ void Connection::quit() // send QUIT command
 	Command::sendCommand(this->sock, "QUIT");
 	int code = ResponseHandler::getCodeResponse(this->ServerResponse());
 	ResponseHandler::handler(code);
-}
-void Connection::status()
-{
-	try
-	{
-		Command::sendCommand(this->sock, "STAT"); // status without params
-
-		ResponseHandler::getCodeResponse(this->ServerResponse());
-		ResponseHandler::getCodeResponse(this->ServerResponse());
-	
-	}
-	catch (char *message)
-	{
-		cout << "Handler: " << message << endl;
-	}
 }
 char * Connection::ServerResponse()
 {
@@ -157,29 +131,28 @@ char * Connection::ServerResponse()
 bool Connection::SetPassiveMode()
 {
 	Command::sendCommand(this->sock, "PASV"); // send login
-	if (this->SetIPForActiveMode())
-		return true;
-	else
-		return false;
+	return (this->SetIPForActiveMode()) ? true : false;
 }
 bool Connection::SetIPForActiveMode()
 {
-	try
-	{
+	try	{
 		char *string = 0;
 		char aa[256] = { '/0' };
 		int ii = 0;
 
 		ii = recv(this->sock, aa, sizeof(aa), 0);
-		if (string != 0)
-			strcpy_s(string, sizeof(aa), aa);
 
-		if (ii == 0 || ii == -1)
+		if (string != 0) {
+			strcpy_s(string, sizeof(aa), aa);
+		}
+
+		if (ii == 0 || ii == -1) {
 			throw "Connection lost...";
+		}
 
 		cout << "Response: " << aa << endl;
 
-		// Lets extract the string "216,92,6,187,194,13"
+		// extract the sample string "216,92,6,187,194,13"
 		char szIP[40];
 		char* start = strchr(aa, '(');
 		char* end = strchr(aa, ')');
@@ -188,10 +161,9 @@ bool Connection::SetIPForActiveMode()
 		char str[30] = { '\0' };
 		strncpy_s(str, start + 1, num - 1);
 
-		// str now contains "216,92,6,187,194,13"
-		char* token = strtok(str, ",");
-
 		// Lets break the string up using the ',' character as a seperator
+		char* token = strtok(str, ","); 
+
 		// Lets get the IP address from the string.
 		strcpy(szIP, "");
 		strcat(szIP, token);
@@ -224,6 +196,7 @@ bool Connection::SetIPForActiveMode()
 	{
 		cout << message << endl;
 	}
+
 	return false;
 }
 void Connection::CloseSocket()

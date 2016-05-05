@@ -17,7 +17,7 @@ private:
 	void setPath(); // take path + filename
 public:
 	bool download(); // download file from server
-	bool upload(); // upload file from client to server                               take it
+	bool upload(); // upload file from client to server
 	static bool hasDirectory(char *params); // save to directory
 	static bool hasFileInSystem(char *params); // check out file in system
 	static bool checkoutDownloadParams(char *params); // checkout params (three) for downloading
