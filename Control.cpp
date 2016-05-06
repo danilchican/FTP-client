@@ -263,7 +263,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case DELETE_FILE:
 		if (c1 != NULL)	{
-			if (!File::checkoutDeleteParams(params)) {
+			if (!File::checkCountParams(params, ONE_PARAM)) {
 				cout << "" << endl;
 			}
 			else {
@@ -290,7 +290,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case RENAME_FILE:
 		if (c1 != NULL)	{
-			if (!File::checkoutRenameParams(params)) {
+			if (!File::checkCountParams(params, TWO_PARAMS)) {
 				cout << "You haven't all params to rename file.\nSee --help. rn [from] [to]"  << endl;
 			}
 			else {
