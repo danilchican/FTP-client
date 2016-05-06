@@ -65,6 +65,14 @@ void Control::setControl(Commands command)
 			cout << "Does not have any connection." << endl;
 		}
 		break;
+	case DELETE_FILE:
+		if (c1 != NULL) {
+			cout << "You haven't all params to delete file.\nSee --help. rm [file]" << endl;
+		}
+		else {
+			cout << "Does not have any connection." << endl;
+		}
+		break;
 	case LIST:
 		if (c1 != NULL)	{
 			if (c1->SetPassiveMode()) {
@@ -90,14 +98,7 @@ void Control::setControl(Commands command)
 			cout << "Does not have any connection." << endl;
 		}
 		break;
-	case RECONNECT:
-		if (c1 != NULL) {
-			c1->Reconnect();
-		}
-		else {
-			cout << "Does not have any connection." << endl;
-		}
-		break;
+
 	case CHANGE_DIR:
 		if (c1 != NULL) {
 			cout << ONLY_ONE_PARAM << endl;
@@ -188,9 +189,6 @@ void Control::setControlWithParams(Commands command, char *params)
 	case LIST:
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
-	case RECONNECT:
-		cout << PARAMS_NOT_REQUIRED << endl;
-		break;
 	case DOWNLOAD_FILE:
 		if (c1 != NULL)	{
 			if (File::hasDirectory(params))	{
@@ -249,6 +247,33 @@ void Control::setControlWithParams(Commands command, char *params)
 				else {
 					cout << "Reconnect to server, please." << endl;
 				}
+			}
+		}
+		else {
+			cout << "Does not have any connection." << endl;
+		}
+		break;
+	case DELETE_FILE:
+		if (c1 != NULL)	{
+			if (!File::checkoutDeleteParams(params)) {
+				cout << ONLY_ONE_PARAM << endl;
+			}
+			else {
+				File *file = NULL;
+
+				try {
+					file = new File(c1, c2, params);
+
+					if (!file->_delete()) {
+						cout << "Cannot delete file..." << endl;
+					}
+				}
+				catch (char *message)
+				{
+					cout << "Handler: " << message << endl;
+				}
+
+				delete file;
 			}
 		}
 		else {

@@ -49,8 +49,6 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		
 	if (!strcmp(command, "connect"))
 		return CONNECT;
-	else if (!strcmp(command, "reconnect"))
-		return RECONNECT;
 	else if (!strcmp(command, "disconnect"))
 		return DISCONNECT;
 	else if (!strcmp(command, "mkdir"))
@@ -61,6 +59,8 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		return MOVE_UP;
 	else if (!strcmp(command, "rmdir"))
 		return DELETE_DIR;
+	else if (!strcmp(command, "rm"))
+		return DELETE_FILE;
 	else if (!strcmp(command, "download"))
 		return DOWNLOAD_FILE;
 	else if (!strcmp(command, "upload"))

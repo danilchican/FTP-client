@@ -36,19 +36,22 @@ File::File(Connection *c1, Connection *c2, char *params) : bytes(0), path(NULL)
 	}
 
 }
-bool File::find(bool is_upload)
+bool File::find(Commands com)
 {
 	try {
 		char *command = new char[strlen(fileName) + 6];
 		command[0] = '\0';
 
-		if (is_upload) {
-			strcat(command, "STOR ");
-			strcat(command, fileName);
-		}
-		else {
+		switch (com)
+		{
+		case DOWNLOAD_FILE:
 			strcat(command, "RETR ");
 			strcat(command, fileName);
+			break;
+		case UPLOAD_FILE:
+			strcat(command, "STOR ");
+			strcat(command, fileName);
+			break;
 		}
 
 		Command::sendCommand(c1->getSock(), "TYPE I");
@@ -63,12 +66,15 @@ bool File::find(bool is_upload)
 		int code = ResponseHandler::getCodeResponse(response);
 		ResponseHandler::handler(code);
 
-		if (!is_upload) {
+		switch (com)
+		{
+		case DOWNLOAD_FILE:
 			this->setFileSize(response, true);
-		}
-		else {
+			break;
+		case UPLOAD_FILE:
 			this->setPath();
 			this->setFileSize(response, false);
+			break;
 		}
 
 		return true;
@@ -83,7 +89,7 @@ bool File::find(bool is_upload)
 bool File::download()
 {
 	try {
-		if (!this->find(false)) {
+		if (!this->find(DOWNLOAD_FILE)) {
 			return false;
 		}
 		else {
@@ -105,7 +111,7 @@ bool File::download()
 bool File::upload()
 {
 	try	{
-		if (!this->find(true)) {
+		if (!this->find(UPLOAD_FILE)) {
 			return false;
 		}
 		else {
@@ -162,6 +168,21 @@ bool File::checkoutUploadParams(char *params)
 	}
 
 	return (countArguments == 2) ? true : false;
+}
+bool File::checkoutDeleteParams(char *params)
+{
+	int countArguments = 0;
+
+	char *arg = new char[strlen(params) + 1];
+	strcpy(arg, params);
+
+	char *pch = strtok(arg, ",");
+
+	for (countArguments = 0; pch != NULL; countArguments++) {
+		pch = strtok(NULL, ",");
+	}
+
+	return (countArguments == 1) ? true : false;
 }
 bool File::hasDirectory(char *params)
 {
@@ -394,4 +415,44 @@ bool File::uploadProcess()
 	}
 
 	return false;
+}
+bool File::deleteProcess()
+{
+	try {
+		char *command = new char[strlen(fileName) + 6];
+		command[0] = '\0';
+
+		strcat(command, "DELE ");
+		strcat(command, fileName);
+
+		Command::sendCommand(c1->getSock(), command);
+
+		char *response = c1->ServerResponse();
+
+		int code = ResponseHandler::getCodeResponse(response);
+		ResponseHandler::handler(code);
+
+		return true;
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+	}
+
+	return false;
+}
+bool File::_delete() 
+{
+	try	{	
+		if (!(this->deleteProcess())) {
+			return false;
+		}
+
+		return true;
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+		return false;
+	}
 }

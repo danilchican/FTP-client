@@ -12,6 +12,7 @@ void Helper::Commands()
 		{ "disconnect", "Destroy created session" },
 		{ "mkdir [name]", "Create new directory" },
 		{ "rmdir [name]", "Deletes the named directory on the remote host" },
+		{ "rm [name]", "Deletes the named file on the remote host" },
 		{ "pwd", "Return current directory" },
 		{ "download [name] [path]", "Download the file from the remote host" },
 		{ "upload [name] [path]", "Upload the file from client to the remote host" },
