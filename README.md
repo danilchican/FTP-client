@@ -16,6 +16,7 @@ Add files to the Visual Studio project and compile programm.
 * mkdir [name] - Create new directory
 * rmdir [name] - Deletes the named directory on the remote host
 * rm [file] - Deletes the named file on the remote host
+* rn [from] [to] - "Rename the file on the remote host"
 * download [file] [path] - Download the file from the remote host
 * upload [file] [path] - Upload the file from client to the remote host
 * cd - Change current directory
