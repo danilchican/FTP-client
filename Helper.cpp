@@ -8,11 +8,11 @@ void Helper::Commands()
 	char commands[COUNT_COMMANDS][2][80] =
 	{
 		{ "connect", "Create connection to your host" },
-		{ "reconnect", "Connect to exists host" },
 		{ "disconnect", "Destroy created session" },
 		{ "mkdir [name]", "Create new directory" },
 		{ "rmdir [name]", "Deletes the named directory on the remote host" },
 		{ "rm [file]", "Deletes the named file on the remote host" },
+		{ "rn [from] [to]", "Rename the file on the remote host" },
 		{ "pwd", "Return current directory" },
 		{ "download [file] [path]", "Download the file from the remote host" },
 		{ "upload [file] [path]", "Upload the file from client to the remote host" },

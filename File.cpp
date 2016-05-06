@@ -128,6 +128,36 @@ bool File::upload()
 		return false;
 	}
 }
+bool File::_delete()
+{
+	try	{
+		if (!(this->deleteProcess())) {
+			return false;
+		}
+
+		return true;
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+		return false;
+	}
+}
+bool File::rename()
+{
+	try	{
+		if (!(this->renameProcess())) {
+			return false;
+		}
+
+		return true;
+	}
+	catch (char *message)
+	{
+		cout << "Handler: " << message << endl;
+		return false;
+	}
+}
 void File::setPath()
 {
 	char *dirName = strtok(this->arguments, ",");
@@ -183,6 +213,21 @@ bool File::checkoutDeleteParams(char *params)
 	}
 
 	return (countArguments == 1) ? true : false;
+}
+bool File::checkoutRenameParams(char *params)
+{
+	int countArguments = 0;
+
+	char *arg = new char[strlen(params) + 1];
+	strcpy(arg, params);
+
+	char *pch = strtok(arg, ",");
+
+	for (countArguments = 0; pch != NULL; countArguments++) {
+		pch = strtok(NULL, ",");
+	}
+
+	return (countArguments == 2) ? true : false;
 }
 bool File::hasDirectory(char *params)
 {
@@ -441,18 +486,44 @@ bool File::deleteProcess()
 
 	return false;
 }
-bool File::_delete() 
+bool File::renameProcess()
 {
-	try	{	
-		if (!(this->deleteProcess())) {
-			return false;
-		}
+	try {
+		char command[255],
+			 fileTo[255],
+			 *pch;
+
+		command[0] = '\0';
+		fileTo[0] = '\0';
+
+		strcat(command, "RNFR ");
+		strcat(command, fileName);
+		
+		Command::sendCommand(c1->getSock(), command);
+
+		char *response = c1->ServerResponse();
+
+		int code = ResponseHandler::getCodeResponse(response);
+		ResponseHandler::handler(code);
+
+		strcpy(fileTo, this->arguments);
+
+		strcpy(command, "RNTO ");
+		strcat(command, fileTo);
+
+		Command::sendCommand(c1->getSock(), command);
+
+		response = c1->ServerResponse();
+
+		code = ResponseHandler::getCodeResponse(response);
+		ResponseHandler::handler(code);
 
 		return true;
 	}
 	catch (char *message)
 	{
 		cout << "Handler: " << message << endl;
-		return false;
 	}
+
+	return false;
 }

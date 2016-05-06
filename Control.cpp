@@ -73,6 +73,14 @@ void Control::setControl(Commands command)
 			cout << "Does not have any connection." << endl;
 		}
 		break;
+	case RENAME_FILE:
+		if (c1 != NULL) {
+			cout << "You haven't all params to rename file.\nSee --help. rn [from] [to]" << endl;
+		}
+		else {
+			cout << "Does not have any connection." << endl;
+		}
+		break;
 	case LIST:
 		if (c1 != NULL)	{
 			if (c1->SetPassiveMode()) {
@@ -256,7 +264,7 @@ void Control::setControlWithParams(Commands command, char *params)
 	case DELETE_FILE:
 		if (c1 != NULL)	{
 			if (!File::checkoutDeleteParams(params)) {
-				cout << ONLY_ONE_PARAM << endl;
+				cout << "" << endl;
 			}
 			else {
 				File *file = NULL;
@@ -266,6 +274,33 @@ void Control::setControlWithParams(Commands command, char *params)
 
 					if (!file->_delete()) {
 						cout << "Cannot delete file..." << endl;
+					}
+				}
+				catch (char *message)
+				{
+					cout << "Handler: " << message << endl;
+				}
+
+				delete file;
+			}
+		}
+		else {
+			cout << "Does not have any connection." << endl;
+		}
+		break;
+	case RENAME_FILE:
+		if (c1 != NULL)	{
+			if (!File::checkoutRenameParams(params)) {
+				cout << "You haven't all params to rename file.\nSee --help. rn [from] [to]"  << endl;
+			}
+			else {
+				File *file = NULL;
+
+				try {
+					file = new File(c1, c2, params);
+
+					if (!file->rename()) {
+						cout << "Cannot rename file..." << endl;
 					}
 				}
 				catch (char *message)
