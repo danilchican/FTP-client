@@ -7,6 +7,8 @@ Clone the repo via git:
 $ git clone https://github.com/danilchican/FTP-client.git
 ```
 
+Add files to the Visual Studio project and compile programm.
+
 ## Available client commands
 * connect - Create connection to your host
 * disconnect - Destroy created session
