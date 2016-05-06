@@ -11,7 +11,9 @@ enum CountParams {
 	ONE_PARAM = 1, TWO_PARAMS = 2
 };
 
-#define COUNT_COMMANDS 15
+#define DB_NAME "ftp_db.sqlite"
+
+#define COUNT_COMMANDS 16
 #define SIZE_BUFF 1048576
 #define PARAMS_NOT_REQUIRED "Parameters aren't required for this command"
 #define ONLY_ONE_PARAM "Command have only one param. See -help."
@@ -25,4 +27,4 @@ enum CountParams {
 #include "Directory.h"
 #include "File.h"
 #include "Helper.h"
-#include "sqlite3.h"
+#include "Database.h"
