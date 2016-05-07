@@ -24,5 +24,4 @@ public:
 	bool rename(); // rename the file on the remote host
 	static bool hasDirectory(char *params); // save to directory
 	static bool hasFileInSystem(char *params); // check out file in system
-	static bool checkCountParams(char *params, CountParams count); // checkout count params for process
 };

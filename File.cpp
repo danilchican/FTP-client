@@ -169,24 +169,9 @@ void File::setPath()
 	strcat(this->path, "\\");
 	strcat(this->path, this->fileName);
 }
-bool File::checkCountParams(char *params, CountParams count)
-{
-	int countArguments = 0;
-
-	char *arg = new char[strlen(params) + 1];
-	strcpy(arg, params);
-
-	char *pch = strtok(arg, ",");
-
-	for (countArguments = 0; pch != NULL; countArguments++) {
-		pch = strtok(NULL, ",");
-	}
-
-	return (countArguments == count) ? true : false;
-}
 bool File::hasDirectory(char *params)
 {
-	if (!File::checkCountParams(params, TWO_PARAMS)) {
+	if (!Checkout<bool>::checkCountParams(params, TWO_PARAMS)) {
 		cout << "You haven't all params to download.\nSee --help. dd [file] [path]" << endl;
 		return false;
 	}		
@@ -213,8 +198,8 @@ bool File::hasDirectory(char *params)
 }
 bool File::hasFileInSystem(char *params)
 {
-	if (!File::checkCountParams(params, TWO_PARAMS)) {
-		cout << "You haven't all params to download.\nSee --help. ud [file] [path]" << endl;
+	if (!Checkout<bool>::checkCountParams(params, TWO_PARAMS)) {
+		cout << "You haven't all params to upload.\nSee --help. upload [file] [path]" << endl;
 		return false;
 	}
 
