@@ -5,7 +5,7 @@ void Control::setControl(Commands command)
 {
 	switch (command) {
 	case CONNECT:
-		cout << "You haven't all params to connect to host.\nSee --help. connect [host_id]" << endl;
+		cout << "You haven't all params to connect to host.\nSee --help. create [host_id]" << endl;
 		break;
 	case DISCONNECT:
 		if (c1 != NULL) {
@@ -149,7 +149,7 @@ void Control::setControlWithParams(Commands command, char *params)
 	case CONNECT:
 		if (c1 == NULL) {
 			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
-				cout << "You haven't all params to connect to host.\nSee --help. connect [host_id]" << endl;
+				cout << "You haven't all params to connect to host.\nSee --help. create [host_id]" << endl;
 			}
 			else {
 				Database * db = new Database(params, true);

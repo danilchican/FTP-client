@@ -47,9 +47,9 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		}
 	}
 		
-	if (!strcmp(command, "connect"))
+	if (!strcmp(command, "create"))
 		return CONNECT;
-	else if (!strcmp(command, "disconnect"))
+	else if (!strcmp(command, "close"))
 		return DISCONNECT;
 	else if (!strcmp(command, "mkdir"))
 		return MAKE_DIR;
