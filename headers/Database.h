@@ -2,9 +2,14 @@
 class Database 
 {
 	sqlite3 *db;
+	char *hostname;
+	char *username;
+	char *password;
 public:
 	Database();
+	Database(char *params);
 	bool getHostsList(); // get hosts list in database
+	bool addNewHost(); // add new host to the database
 private:
 	bool open(); // open database connection
 	void close(); // close database connection

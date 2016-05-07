@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Database::Database() : db(0)
+Database::Database() : db(0), hostname(NULL), username(NULL), password(NULL)
 {
 	bool created = (sqlite3_open(DB_NAME, &(this->db))) ? false : true;
 
@@ -13,6 +13,39 @@ Database::Database() : db(0)
 	}
 	else {
 		this->init();
+	}
+
+	this->close();
+}
+Database::Database(char *params) : db(0), hostname(NULL), username(NULL), password(NULL)
+{
+	bool created = (sqlite3_open(DB_NAME, &(this->db))) ? false : true;
+
+	if (!created) {
+		cout << "Cannot create/open database..." << endl;
+	}
+	else {
+		if (!this->init()) {
+			cout << "Error init database..." << endl;
+		}
+		else {
+			char *commandLine = new char[strlen(params) + 1];
+			strcpy_s(commandLine, strlen(params) + 1, params);
+
+			char *pch = strtok(commandLine, ",");
+
+			this->hostname = new char[strlen(pch) + 1];
+			strcpy(hostname, pch);
+
+			pch = strtok(NULL, ",");
+			this->username = new char[strlen(pch) + 1];
+			strcpy(username, pch);
+
+			pch = strtok(NULL, ",");
+			this->password = new char[strlen(pch) + 1];
+			strcpy(password, pch);
+		}
+
 	}
 
 	this->close();
@@ -29,7 +62,7 @@ bool Database::init()
 {
 	const char * SQL = "CREATE TABLE IF NOT EXISTS `accounts` ("
 		" `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE ,"
-		" `hostname` VARCHAR(80) NOT NULL ,"
+		" `hostname` VARCHAR(80) NOT NULL UNIQUE ,"
 		" `user` VARCHAR(80) NULL DEFAULT NULL ,"
 		" `password` VARCHAR(80) NULL DEFAULT NULL )";
 
@@ -50,7 +83,7 @@ bool Database::exec(const char *qry)
 }
 void Database::printErrorMessage(const char *errorMessage)
 {
-	cout << "SQL: " << errorMessage << endl;
+	cout << "SQL error: " << errorMessage << endl;
 }
 bool Database::getHostsList()
 {
@@ -62,10 +95,11 @@ bool Database::getHostsList()
 	}
 
 	const char * SQL = "SELECT * FROM `accounts`",
-				*data = "Callbacked";
+				*data = 0;
 
 	char *errMsg = 0;
 	int stat = 0;
+
 	sqlite3_stmt *stmt;
 
 	sqlite3_prepare_v2(this->db, SQL, -1, &stmt, NULL);
@@ -89,6 +123,7 @@ bool Database::getHostsList()
 	else {
 		cout << "Database of saved hosts: " << endl << endl;
 		cout << "|   ID   ||      hostname      ||   username    |" << endl << endl;
+
 		while (sqlite3_column_text(stmt, 0)) {
 			for (int i = 0, step = 0; i < 3; i++) {
 				step = (i != 0) ? 20 : 8;
@@ -103,4 +138,40 @@ bool Database::getHostsList()
 	this->close();
 
 	return true;
+}
+bool Database::addNewHost()
+{
+	if (!this->open()) {
+		cout << DB_NOT_ACCESSABLE << endl;
+		this->close();
+
+		return false;
+	}
+
+	string SQL = "INSERT INTO `accounts` (`hostname`, `user`, `password`) "
+		"VALUES ('" + string(hostname) + "', '" + string(username) + "', '" + string(password) + "')";
+
+	int stat = 0; 
+	const char *data = 0;
+
+	char *errMsg = 0;
+
+	sqlite3_stmt *stmt;
+
+	sqlite3_prepare_v2(this->db, SQL.c_str(), -1, &stmt, NULL);
+	stat = sqlite3_step(stmt);
+
+	if (stat != SQLITE_DONE)
+	{
+		int errorCode = 0;
+		if (errorCode = sqlite3_exec(this->db, SQL.c_str(), NULL, (void *)data, &errMsg) != SQLITE_OK) {
+			this->printErrorMessage(errMsg);
+			sqlite3_free(errMsg);
+			this->close();
+
+			return false;
+		}
+	}
+
+	this->close();
 }

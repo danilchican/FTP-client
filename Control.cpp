@@ -47,6 +47,9 @@ void Control::setControl(Commands command)
 			db.getHostsList();
 		}
 		break;
+	case ADD_HOST:
+			cout << "You haven't all params to add new host.\nSee --help. addhost [host] [user] [pass]" << endl;
+		break;
 	case CURRENT_DIR:
 		if (c1 != NULL) {
 			Directory::currentDirectory(c1);
@@ -174,6 +177,25 @@ void Control::setControlWithParams(Commands command, char *params)
 	case HOSTS:
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
+	case ADD_HOST:
+			if (!Checkout<bool>::checkCountParams(params, THREE_PARAMS)) {
+				cout << "You haven't all params to add new host.\nSee --help. addhost [host] [user] [pass]" << endl;
+			}
+			else {
+				Database *db = NULL;
+
+				db = new Database(params);
+
+				if (!db->addNewHost()) {
+					cout << "Cannot add new host to the DB..." << endl;
+				}
+				else {
+					cout << "New host successfully added!" << endl;
+				}
+				
+				delete db;
+			}
+		break;
 	case MAKE_DIR:
 		if (c1 != NULL)	{
 			if (!Directory::checkoutMakeDirParams(params)) {
@@ -273,7 +295,7 @@ void Control::setControlWithParams(Commands command, char *params)
 	case DELETE_FILE:
 		if (c1 != NULL)	{
 			if (!File::checkCountParams(params, ONE_PARAM)) {
-				cout << "" << endl;
+				cout << "You haven't all params to delete file.\nSee --help. rm [file]" << endl;
 			}
 			else {
 				File *file = NULL;
