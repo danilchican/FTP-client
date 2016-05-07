@@ -15,6 +15,7 @@ void Helper::Commands()
 		{ "rn [from] [to]", "Rename the file on the remote host" },
 		{ "pwd", "Return current directory" },
 		{ "hosts", "Display list of hosts stored in database" },
+		{ "addhost [host] [user] [pass]", "Add new host to the DB" },
 		{ "download [file] [path]", "Download the file from the remote host" },
 		{ "upload [file] [path]", "Upload the file from client to the remote host" },
 		{ "cd", "Change current directory" },
@@ -27,7 +28,7 @@ void Helper::Commands()
 
 	cout << "Commands: " << endl;
 
-	for (int i = 0; i < COUNT_COMMANDS; i++) { // display commands and description
-		cout << "   " << setw(24) << left << commands[i][0] << "   " << commands[i][1] << endl;
+	for (int i = 0; i < COUNT_COMMANDS - 1; i++) { // display commands and description
+		cout << "   " << setw(30) << left << commands[i][0] << "   " << commands[i][1] << endl;
 	}
 }
