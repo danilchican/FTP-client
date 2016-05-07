@@ -174,6 +174,8 @@ bool Database::addNewHost()
 	}
 
 	this->close();
+
+	return true;
 }
 bool Database::deleteHost(int id)
 {
@@ -198,6 +200,14 @@ bool Database::deleteHost(int id)
 	sqlite3_prepare_v2(this->db, SQL.c_str(), -1, &stmt, NULL);
 	stat = sqlite3_step(stmt);
 
+	if (sqlite3_changes(db) == 0) {
+		cout << "\nNo hosts deleted. Cannot find host with id = " << id << "!" << endl;
+
+		this->close();
+
+		return false;
+	}
+
 	if (stat != SQLITE_DONE)
 	{
 		int errorCode = 0;
@@ -211,4 +221,6 @@ bool Database::deleteHost(int id)
 	}
 
 	this->close();
+
+	return true;
 }
