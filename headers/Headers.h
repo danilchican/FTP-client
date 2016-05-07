@@ -8,7 +8,7 @@ enum Commands { CONNECT, DISCONNECT, LIST, DOWNLOAD_FILE, UPLOAD_FILE, DELETE_FI
 				COMMAND_ERROR, CLEAR_CONSOLE, HELP, EXIT };
 
 enum CountParams {
-	ONE_PARAM = 1, TWO_PARAMS = 2, THREE_PARAMS = 3
+	ONE_PARAM = 1, TWO_PARAMS = 2, THREE_PARAMS = 3, FOUR_PARAMS = 4
 };
 
 #define DB_NAME "ftp_db.sqlite"
@@ -21,6 +21,7 @@ enum CountParams {
 #define DB_NOT_ACCESSABLE "Can't open the database..."
 
 #include "Command.h"
+#include "Database.h"
 #include "Connection.h"
 #include "CommandLine.h"
 #include "Control.h"
@@ -29,4 +30,3 @@ enum CountParams {
 #include "Directory.h"
 #include "File.h"
 #include "Helper.h"
-#include "Database.h"

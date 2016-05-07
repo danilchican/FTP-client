@@ -1,16 +1,12 @@
 #include "headers\Headers.h"
 using namespace std;
 
-Connection::Connection() 
+Connection::Connection(Database * db) 
 {
-	cout << "  HOST: ";
-	strcpy_s(this->ftpHost, 80, Checkout<char *>::stroke());
-	cout << "  PORT: ";
-	this->port = Checkout<unsigned int>::integer(0, 8080);
-	cout << "  USER: ";
-	strcpy_s(this->login, 80, Checkout<char *>::stroke());
-	cout << "  PASS: ";
-	strcpy_s(this->password, 80, Checkout<char *>::stroke());
+	strcpy_s(this->ftpHost, 80, db->_hostname());
+	this->port = atoi(db->_port());
+	strcpy_s(this->login, 80, db->_username());
+	strcpy_s(this->password, 80, db->_password());
 }
 Connection::Connection(const char *ipHost, unsigned int active_port) : port(active_port)
 {

@@ -5,29 +5,7 @@ void Control::setControl(Commands command)
 {
 	switch (command) {
 	case CONNECT:
-		if (c1 == NULL) {
-			c1 = new Connection(); // Create new connection without params
-
-			if (!c1->Connect()) { // Connect to host by socket 
-				cout << "Cannot connect to host" << endl;
-				delete c1;
-				c1 = NULL;
-			} 
-			else {
-				cout << "Connected to host\nStarting authorisation..." << endl;
-				if (!c1->Authorisation()) {
-					cout << "Cannot connect to host." << endl;
-					delete c1;
-					c1 = NULL;
-				} 
-				else {
-					cout << "User " << c1->user() << " logged in" << endl; // to complete
-				}
-			}
-		}
-		else {
-			cout << "You have already connection" << endl;
-		}	
+		cout << "You haven't all params to connect to host.\nSee --help. connect [host_id]" << endl;
 		break;
 	case DISCONNECT:
 		if (c1 != NULL) {
@@ -48,7 +26,7 @@ void Control::setControl(Commands command)
 		}
 		break;
 	case ADD_HOST:
-			cout << "You haven't all params to add new host.\nSee --help. addhost [host] [user] [pass]" << endl;
+			cout << "You haven't all params to add new host.\nSee --help. addhost [host] [port] [user] [pass]" << endl;
 		break;
 	case DELETE_HOST:
 		cout << "You haven't all params to delete host.\nSee --help. rmhost [id]" << endl;
@@ -169,7 +147,42 @@ void Control::setControlWithParams(Commands command, char *params)
 {
 	switch (command) {
 	case CONNECT:
-		cout << PARAMS_NOT_REQUIRED << endl;
+		if (c1 == NULL) {
+			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
+				cout << "You haven't all params to connect to host.\nSee --help. connect [host_id]" << endl;
+			}
+			else {
+				Database * db = new Database(params, true);
+				if (db->hasHost()) {
+					c1 = new Connection(db); // Create new connection without params
+
+					cout << "Starting connection..." << endl;
+					if (!c1->Connect()) { // Connect to host by socket 
+						cout << "Cannot connect to host" << endl;
+
+						delete c1;
+						c1 = NULL;
+					}
+					else {
+						cout << "Connected to host\nStarting authorisation..." << endl;
+						if (!c1->Authorisation()) {
+							cout << "Cannot connect to host." << endl;
+							delete c1;
+							c1 = NULL;
+						}
+						else {
+							cout << "User " << c1->user() << " logged in" << endl; // to complete
+						}
+					}
+				}
+				else {
+					cout << "Can't find host by id = " << params << "..." << endl;
+				}
+			}		
+		}
+		else {
+			cout << "You have already connection" << endl;
+		}
 		break;
 	case DISCONNECT:
 		cout << PARAMS_NOT_REQUIRED << endl;
@@ -181,8 +194,8 @@ void Control::setControlWithParams(Commands command, char *params)
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case ADD_HOST:
-			if (!Checkout<bool>::checkCountParams(params, THREE_PARAMS)) {
-				cout << "You haven't all params to add new host.\nSee --help. addhost [host] [user] [pass]" << endl;
+			if (!Checkout<bool>::checkCountParams(params, FOUR_PARAMS)) {
+				cout << "You haven't all params to add new host.\nSee --help. addhost [host] [port] [user] [pass]" << endl;
 			}
 			else {
 				Database *db = NULL;

@@ -9,7 +9,9 @@ class Connection
 	unsigned int active_port;
 	SOCKET sock;
 public:
-	Connection();
+	Connection() 
+	{};
+	Connection(Database * db);
 	Connection(const char *ipHost, unsigned int active_port);
 	bool Connect(); // connect to server
 	void Reconnect(); // reconnect to server
