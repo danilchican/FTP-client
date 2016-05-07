@@ -230,7 +230,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case MAKE_DIR:
 		if (c1 != NULL)	{
-			if (!Directory::checkoutMakeDirParams(params)) {
+			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
 				cout << ONLY_ONE_PARAM << endl;
 			}
 			else {
@@ -243,7 +243,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case CHANGE_DIR:
 		if (c1 != NULL) {
-			if (!Directory::checkoutMakeDirParams(params)) {
+			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
 				cout << ONLY_ONE_PARAM << endl;
 			}
 			else {
@@ -380,7 +380,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case DELETE_DIR:
 		if (c1 != NULL) {
-			if (!Directory::checkoutMakeDirParams(params)) {
+			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
 				cout << ONLY_ONE_PARAM << endl;
 			}
 			else {

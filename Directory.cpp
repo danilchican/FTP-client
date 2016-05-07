@@ -146,19 +146,3 @@ void Directory::list(Connection *c1, Connection *c2)
 		cout << "Handler: " << message << endl;
 	}
 }
-bool Directory::checkoutMakeDirParams(char *params)
-{
-	int countArguments = 0;
-
-	int length = strlen(params) + 1;
-	char *arg = new char[length];
-	strcpy_s(arg, length, params);
-
-	char *pch = strtok(arg, " ,");
-
-	for (countArguments = 0; pch != NULL; countArguments++) {
-		pch = strtok(NULL, ",");
-	}
-
-	return (countArguments == 1) ? true : false;
-}
