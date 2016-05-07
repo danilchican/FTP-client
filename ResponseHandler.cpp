@@ -24,6 +24,9 @@ void ResponseHandler::handler(int code)
 	case 530:
 		throw "Login is incorrect";
 		break;
+	case 550:
+		throw "Oops. Looks like something wrong";
+		break;
 	default:
 		break;
 	}
