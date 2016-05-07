@@ -22,7 +22,7 @@ Add files to the Visual Studio project and compile programm.
 * hosts - Display list of hosts stored in database
 * addhost [host] [port] [user] [pass] - Add new host to the database
 * rm [id] - Delete host from the database
-* cd - Change current directory
+* cd [path] - Change current directory
 * up - Moves up to the parent directory
 * ls - Diplay the contents of a current directory
 * help - Display available commands

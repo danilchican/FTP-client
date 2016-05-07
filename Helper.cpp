@@ -19,7 +19,7 @@ void Helper::Commands()
 		{ "rmhost [id]", "Delete host from the database" },
 		{ "download [file] [path]", "Download the file from the remote host" },
 		{ "upload [file] [path]", "Upload the file from client to the remote host" },
-		{ "cd", "Change current directory" },
+		{ "cd [path]", "Change current directory" },
 		{ "up", "Moves up to the parent directory" },
 		{ "ls", "Diplay the contents of a current directory" },
 		{ "help", "Display available commands" },
