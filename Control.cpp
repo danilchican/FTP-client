@@ -50,6 +50,9 @@ void Control::setControl(Commands command)
 	case ADD_HOST:
 			cout << "You haven't all params to add new host.\nSee --help. addhost [host] [user] [pass]" << endl;
 		break;
+	case DELETE_HOST:
+		cout << "You haven't all params to delete host.\nSee --help. rmhost [id]" << endl;
+		break;
 	case CURRENT_DIR:
 		if (c1 != NULL) {
 			Directory::currentDirectory(c1);
@@ -195,6 +198,22 @@ void Control::setControlWithParams(Commands command, char *params)
 				
 				delete db;
 			}
+		break;
+	case DELETE_HOST:
+		if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
+			cout << "You haven't all params to delete host.\nSee --help. rmhost [id]" << endl;
+		}
+		else {
+			Database db;
+			int host_id = atoi(params);
+
+			if (!db.deleteHost(host_id)) {
+				cout << "Cannot delete host from DB..." << endl;
+			}
+			else {
+				cout << "Host with id = " << host_id << " successfully deleted!" << endl;
+			}
+		}
 		break;
 	case MAKE_DIR:
 		if (c1 != NULL)	{

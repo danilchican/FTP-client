@@ -10,6 +10,7 @@ public:
 	Database(char *params);
 	bool getHostsList(); // get hosts list in database
 	bool addNewHost(); // add new host to the database
+	bool deleteHost(int id); // delete host by id from database
 private:
 	bool open(); // open database connection
 	void close(); // close database connection

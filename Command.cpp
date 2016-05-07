@@ -67,6 +67,8 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		return HOSTS;
 	else if (!strcmp(command, "addhost"))
 		return ADD_HOST;
+	else if (!strcmp(command, "rmhost"))
+		return DELETE_HOST;
 	else if (!strcmp(command, "download"))
 		return DOWNLOAD_FILE;
 	else if (!strcmp(command, "upload"))

@@ -175,3 +175,40 @@ bool Database::addNewHost()
 
 	this->close();
 }
+bool Database::deleteHost(int id)
+{
+	if (!this->open()) {
+		cout << DB_NOT_ACCESSABLE << endl;
+		this->close();
+
+		return false;
+	}
+	char number[10];
+	itoa(id, number, 10);
+
+	string SQL = "DELETE from `accounts` WHERE id='" + string(number) + "'";
+
+	int stat = 0;
+	const char *data = 0;
+
+	char *errMsg = 0;
+
+	sqlite3_stmt *stmt;
+
+	sqlite3_prepare_v2(this->db, SQL.c_str(), -1, &stmt, NULL);
+	stat = sqlite3_step(stmt);
+
+	if (stat != SQLITE_DONE)
+	{
+		int errorCode = 0;
+		if (errorCode = sqlite3_exec(this->db, SQL.c_str(), NULL, (void *)data, &errMsg) != SQLITE_OK) {
+			this->printErrorMessage(errMsg);
+			sqlite3_free(errMsg);
+			this->close();
+
+			return false;
+		}
+	}
+
+	this->close();
+}
