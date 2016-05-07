@@ -10,7 +10,7 @@ $ git clone https://github.com/danilchican/FTP-client.git
 Add files to the Visual Studio project and compile programm.
 
 ## Available client commands
-* connect - Create connection to your host
+* connect [host_id]- Create connection to your host
 * disconnect - Destroy created session
 * pwd - Print working directory
 * mkdir [name] - Create new directory
