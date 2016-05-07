@@ -63,6 +63,8 @@ Commands Command::getCommandByStroke(char *command, bool haveParams)
 		return DELETE_FILE;
 	else if (!strcmp(command, "rn"))
 		return RENAME_FILE;
+	else if (!strcmp(command, "hosts"))
+		return HOSTS;
 	else if (!strcmp(command, "download"))
 		return DOWNLOAD_FILE;
 	else if (!strcmp(command, "upload"))

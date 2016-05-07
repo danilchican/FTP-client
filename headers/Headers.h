@@ -4,7 +4,7 @@
 #include <iostream>
 
 enum Commands { CONNECT, DISCONNECT, LIST, DOWNLOAD_FILE, UPLOAD_FILE, DELETE_FILE, RENAME_FILE,
-				CURRENT_DIR, MAKE_DIR, MOVE_UP, CHANGE_DIR, DELETE_DIR, 
+				CURRENT_DIR, MAKE_DIR, MOVE_UP, CHANGE_DIR, DELETE_DIR, HOSTS,
 				COMMAND_ERROR, CLEAR_CONSOLE, HELP, EXIT };
 
 enum CountParams {
@@ -13,10 +13,11 @@ enum CountParams {
 
 #define DB_NAME "ftp_db.sqlite"
 
-#define COUNT_COMMANDS 16
+#define COUNT_COMMANDS 17
 #define SIZE_BUFF 1048576
 #define PARAMS_NOT_REQUIRED "Parameters aren't required for this command"
 #define ONLY_ONE_PARAM "Command have only one param. See -help."
+#define DB_NOT_ACCESSABLE "Can't open the database..."
 
 #include "Command.h"
 #include "Connection.h"

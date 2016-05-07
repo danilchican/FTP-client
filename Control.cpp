@@ -41,6 +41,12 @@ void Control::setControl(Commands command)
 			cout << "Connection already closed." << endl;
 		}
 		break;
+	case HOSTS: 
+		{
+			Database db;
+			db.getHostsList();
+		}
+		break;
 	case CURRENT_DIR:
 		if (c1 != NULL) {
 			Directory::currentDirectory(c1);
@@ -163,6 +169,9 @@ void Control::setControlWithParams(Commands command, char *params)
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case CURRENT_DIR:
+		cout << PARAMS_NOT_REQUIRED << endl;
+		break;
+	case HOSTS:
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case MAKE_DIR:
