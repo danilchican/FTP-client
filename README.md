@@ -7,7 +7,7 @@ Clone the repo via git:
 $ git clone https://github.com/danilchican/FTP-client.git
 ```
 
-Add files to the Visual Studio project and compile programm.
+Add files to the Visual Studio project and compile program.
 
 ## Available client commands
 * create [host_id] - Create connection to your host
@@ -24,10 +24,10 @@ Add files to the Visual Studio project and compile programm.
 * rm [id] - Delete host from the database
 * cd [path] - Change current directory
 * up - Moves up to the parent directory
-* ls - Diplay the contents of a current directory
+* ls - Display the contents of a current directory
 * help - Display available commands
 * clear - Clear console screen
-* exit - Exit from programm
+* exit - Exit from program
 
 ## Credits
 * [Vladislav Danilchik](https://github.com/danilchican)

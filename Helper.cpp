@@ -21,7 +21,7 @@ void Helper::Commands()
 		{ "upload [file] [path]", "Upload the file from client to the remote host" },
 		{ "cd [path]", "Change current directory" },
 		{ "up", "Moves up to the parent directory" },
-		{ "ls", "Diplay the contents of a current directory" },
+		{ "ls", "Display the contents of a current directory" },
 		{ "help", "Display available commands" },
 		{ "clear", "Clear console screen" },
 		{ "exit", "Exit from programm" }
