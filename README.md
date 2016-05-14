@@ -21,7 +21,7 @@ Add files to the Visual Studio project and compile program.
 * upload [file] [path] - Upload the file from client to the remote host
 * hosts - Display list of hosts stored in database
 * addhost [host] [port] [user] [pass] - Add new host to the database
-* rm [id] - Delete host from the database
+* rmhost [id] - Delete host from the database
 * cd [path] - Change current directory
 * up - Moves up to the parent directory
 * ls - Display the contents of a current directory
