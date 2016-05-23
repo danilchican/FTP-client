@@ -13,16 +13,15 @@ public:
 	{};
 	Connection(Database * db);
 	Connection(const char *ipHost, unsigned int active_port);
-	bool Connect(); // connect to server
-	void Reconnect(); // reconnect to server
-	bool Authorisation(); // to complete for check
-	bool Close(); // close server connection
-	char * ServerResponse(); // response from server
-	void CloseSocket(); // close socket
-	bool SetPassiveMode(); 
-	bool SetIPForActiveMode();
+	bool connectToServer(); // connect to server
+	bool authorisation(); // to complete for check
+	bool close(); // close server connection
+	char * serverResponse(); // response from server
+	void closeSocket(); // close socket
+	bool setPassiveMode(); 
+	bool setIPForActiveMode();
 	char * user(); // return username
-	char * IPHost(); // return ipHost
+	char * getIPHost(); // return ipHost
 	unsigned int activePort(); // return active port for transfering data
 	SOCKET getSock(); // return current socket
 private:

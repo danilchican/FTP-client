@@ -55,13 +55,13 @@ bool File::find(Commands com)
 		}
 
 		Command::sendCommand(c1->getSock(), "TYPE I");
-		ResponseHandler::getCodeResponse(c1->ServerResponse());
+		ResponseHandler::getCodeResponse(c1->serverResponse());
 
 		Command::sendCommand(c1->getSock(), command);
 
-		c2->Connect();
+		c2->connectToServer();
 
-		char *response = c1->ServerResponse();
+		char *response = c1->serverResponse();
 
 		int code = ResponseHandler::getCodeResponse(response);
 		ResponseHandler::handler(code);
@@ -317,9 +317,9 @@ bool File::downloadProcess()
 		}
 
 		cout << endl;
-		c2->CloseSocket();
+		c2->closeSocket();
 
-		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		int code = ResponseHandler::getCodeResponse(c1->serverResponse());
 		ResponseHandler::handler(code);
 
 		return true;
@@ -387,9 +387,9 @@ bool File::uploadProcess()
 		}
 
 		cout << endl;
-		c2->CloseSocket();
+		c2->closeSocket();
 
-		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		int code = ResponseHandler::getCodeResponse(c1->serverResponse());
 		ResponseHandler::handler(code);
 
 		return true;
@@ -412,7 +412,7 @@ bool File::deleteProcess()
 
 		Command::sendCommand(c1->getSock(), command);
 
-		char *response = c1->ServerResponse();
+		char *response = c1->serverResponse();
 
 		int code = ResponseHandler::getCodeResponse(response);
 		ResponseHandler::handler(code);
@@ -441,7 +441,7 @@ bool File::renameProcess()
 		
 		Command::sendCommand(c1->getSock(), command);
 
-		char *response = c1->ServerResponse();
+		char *response = c1->serverResponse();
 
 		int code = ResponseHandler::getCodeResponse(response);
 		ResponseHandler::handler(code);
@@ -453,7 +453,7 @@ bool File::renameProcess()
 
 		Command::sendCommand(c1->getSock(), command);
 
-		response = c1->ServerResponse();
+		response = c1->serverResponse();
 
 		code = ResponseHandler::getCodeResponse(response);
 		ResponseHandler::handler(code);

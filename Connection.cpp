@@ -12,7 +12,7 @@ Connection::Connection(const char *ipHost, unsigned int active_port) : port(acti
 {
 	strcpy_s(this->ftpHost, ipHost);
 }
-bool Connection::Connect()
+bool Connection::connectToServer()
 {
 	if ((this->sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
@@ -49,20 +49,7 @@ bool Connection::Connect()
 
 	return true;
 }
-void Connection::Reconnect()
-{
-	if (!this->Connect()) { // Connect to host by socket 
-		cout << "Cannot connect to host" << endl;
-	} else {
-		cout << "Connected to host\nStarting authorisation..." << endl;
-		if (!this->Authorisation()) {
-			cout << "Cannot connect to host." << endl;
-		} else {
-			cout << "User " << this->user() << " logged in" << endl; // to complete
-		}
-	}
-}
-bool Connection::Authorisation()
+bool Connection::authorisation()
 {
 	int length = strlen(login);
 	char *userData = new char[length + 7];
@@ -76,11 +63,11 @@ bool Connection::Authorisation()
 	
 	try {
 		Command::sendCommand(this->sock, userData); // send login
-		this->ServerResponse();
+		this->serverResponse();
 		Command::sendCommand(this->sock, passData); // send pass
-		this->ServerResponse();
+		this->serverResponse();
 
-		int code = ResponseHandler::getCodeResponse(this->ServerResponse());
+		int code = ResponseHandler::getCodeResponse(this->serverResponse());
 		ResponseHandler::handler(code);
 
 		return true;
@@ -91,29 +78,29 @@ bool Connection::Authorisation()
 		return false;
 	}
 }
-bool Connection::Close() // close connection
+bool Connection::close() // close connection
 {
 	try	{
 		this->quit(); // calling quit() method
 		
-		this->CloseSocket(); // Close current socket
+		this->closeSocket(); // Close current socket
 
 		return true;
 	}
 	catch (char *message)
 	{
 		cout << message << endl;
-		this->CloseSocket(); // Close current socket
+		this->closeSocket(); // Close current socket
 		return false;
 	}
 }
 void Connection::quit() // send QUIT command
 {
 	Command::sendCommand(this->sock, "QUIT");
-	int code = ResponseHandler::getCodeResponse(this->ServerResponse());
+	int code = ResponseHandler::getCodeResponse(this->serverResponse());
 	ResponseHandler::handler(code);
 }
-char * Connection::ServerResponse()
+char * Connection::serverResponse()
 {
 	char aa[256] = { '/0' };
 
@@ -124,12 +111,12 @@ char * Connection::ServerResponse()
 
 	return this->response;
 }
-bool Connection::SetPassiveMode()
+bool Connection::setPassiveMode()
 {
 	Command::sendCommand(this->sock, "PASV"); // send login
-	return (this->SetIPForActiveMode()) ? true : false;
+	return (this->setIPForActiveMode()) ? true : false;
 }
-bool Connection::SetIPForActiveMode()
+bool Connection::setIPForActiveMode()
 {
 	try	{
 		char *string = 0;
@@ -195,7 +182,7 @@ bool Connection::SetIPForActiveMode()
 
 	return false;
 }
-void Connection::CloseSocket()
+void Connection::closeSocket()
 {
 	closesocket(this->sock);
 }
@@ -203,7 +190,7 @@ char * Connection::user()
 {
 	return this->login;
 }
-char * Connection::IPHost()
+char * Connection::getIPHost()
 {
 	return this->ipHost;
 }

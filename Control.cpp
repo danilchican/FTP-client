@@ -10,7 +10,7 @@ void Control::setControl(Commands command)
 	case DISCONNECT:
 		if (c1 != NULL) {
 			cout << "Disconnection..." << endl;
-			c1->Close(); // Close connection
+			c1->close(); // Close connection
 			delete c1, c2;
 			c1 = NULL;
 			c2 = NULL;
@@ -73,9 +73,9 @@ void Control::setControl(Commands command)
 		break;
 	case LIST:
 		if (c1 != NULL)	{
-			if (c1->SetPassiveMode()) {
-				c2 = new Connection(c1->IPHost(), c1->activePort());
-				c2->Connect();
+			if (c1->setPassiveMode()) {
+				c2 = new Connection(c1->getIPHost(), c1->activePort());
+				c2->connectToServer();
 				Directory::list(c1, c2);
 
 				delete c2;
@@ -132,7 +132,7 @@ void Control::setControl(Commands command)
 		break;
 	case EXIT:
 		if (c1 != NULL)	{
-			c1->Close(); // Close connection
+			c1->close(); // Close connection
 			delete c1, c2;
 			c1 = NULL; c2 = NULL;
 			cout << "Clear filled resources..." << endl;
@@ -157,7 +157,7 @@ void Control::setControlWithParams(Commands command, char *params)
 					c1 = new Connection(db); // Create new connection without params
 
 					cout << "Starting connection..." << endl;
-					if (!c1->Connect()) { // Connect to host by socket 
+					if (!c1->connectToServer()) { // Connect to host by socket 
 						cout << "Cannot connect to host" << endl;
 
 						delete c1;
@@ -165,7 +165,7 @@ void Control::setControlWithParams(Commands command, char *params)
 					}
 					else {
 						cout << "Connected to host\nStarting authorisation..." << endl;
-						if (!c1->Authorisation()) {
+						if (!c1->authorisation()) {
 							cout << "Cannot connect to host." << endl;
 							delete c1;
 							c1 = NULL;
@@ -263,8 +263,8 @@ void Control::setControlWithParams(Commands command, char *params)
 	case DOWNLOAD_FILE:
 		if (c1 != NULL)	{
 			if (File::hasDirectory(params))	{
-				if (c1->SetPassiveMode()) {
-					c2 = new Connection(c1->IPHost(), c1->activePort());
+				if (c1->setPassiveMode()) {
+					c2 = new Connection(c1->getIPHost(), c1->activePort());
 					File *file = NULL;
 
 					try {
@@ -279,7 +279,7 @@ void Control::setControlWithParams(Commands command, char *params)
 						cout << "Handler: " << message << endl;
 					}
 
-					c2->CloseSocket();
+					c2->closeSocket();
 
 					delete c2, file;
 				}
@@ -295,8 +295,8 @@ void Control::setControlWithParams(Commands command, char *params)
 	case UPLOAD_FILE:
 		if (c1 != NULL)	{
 			if (File::hasFileInSystem(params)) {
-				if (c1->SetPassiveMode()) {
-					c2 = new Connection(c1->IPHost(), c1->activePort());
+				if (c1->setPassiveMode()) {
+					c2 = new Connection(c1->getIPHost(), c1->activePort());
 					File *file = NULL;
 
 					try	{
@@ -311,7 +311,7 @@ void Control::setControlWithParams(Commands command, char *params)
 						cout << "Handler: " << message << endl;
 					}
 
-					c2->CloseSocket();
+					c2->closeSocket();
 
 					delete c2, file;
 				}

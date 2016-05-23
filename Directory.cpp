@@ -11,7 +11,7 @@ void Directory::makeDirectory(Connection *c1, char *path)
 		strcat_s(command, strlen(command) + strlen(path) + 1, path);
 
 		Command::sendCommand(c1->getSock(), command);
-		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		int code = ResponseHandler::getCodeResponse(c1->serverResponse());
 		ResponseHandler::handler(code);
 	}
 	catch (char *message)
@@ -25,7 +25,7 @@ void Directory::currentDirectory(Connection *c1)
 
 	char cdir[255];
 
-	strcpy_s(cdir, 255, Directory::processingCurrentDirectory(c1->ServerResponse()));
+	strcpy_s(cdir, 255, Directory::processingCurrentDirectory(c1->serverResponse()));
 
 	cout << "Current directory: " << "\"" << cdir << "\"" << endl;	
 }
@@ -73,7 +73,7 @@ void Directory::changeDirectory(Connection *c1, char *path)
 		strcat_s(command, strlen(command) + strlen(path) + 1, path);
 
 		Command::sendCommand(c1->getSock(), command);
-		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		int code = ResponseHandler::getCodeResponse(c1->serverResponse());
 		ResponseHandler::handler(code);
 	}
 	catch (char *message)
@@ -90,7 +90,7 @@ void Directory::removeDirectory(Connection *c1, char *path)
 		strcat_s(command, strlen(command) + strlen(path) + 1, path);
 
 		Command::sendCommand(c1->getSock(), command);
-		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		int code = ResponseHandler::getCodeResponse(c1->serverResponse());
 		ResponseHandler::handler(code);
 	}
 	catch (char *message)
@@ -103,7 +103,7 @@ void Directory::moveUp(Connection *c1)
 	try	{
 		Command::sendCommand(c1->getSock(), "CDUP");
 
-		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		int code = ResponseHandler::getCodeResponse(c1->serverResponse());
 		ResponseHandler::handler(code);
 	}
 	catch (char *message)
@@ -116,7 +116,7 @@ void Directory::list(Connection *c1, Connection *c2)
 	try	{
 		Command::sendCommand(c1->getSock(), "LIST");
 		
-		int code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		int code = ResponseHandler::getCodeResponse(c1->serverResponse());
 		ResponseHandler::handler(code);
 
 		char *text = new char[SIZE_BUFF + 1];
@@ -136,9 +136,9 @@ void Directory::list(Connection *c1, Connection *c2)
 		}
 		cout << endl;
 
-		c2->CloseSocket();
+		c2->closeSocket();
 
-		code = ResponseHandler::getCodeResponse(c1->ServerResponse());
+		code = ResponseHandler::getCodeResponse(c1->serverResponse());
 		ResponseHandler::handler(code);
 	}
 	catch (char *message)
