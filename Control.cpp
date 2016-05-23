@@ -114,7 +114,7 @@ void Control::setControl(Commands command)
 		}
 		break;
 	case HELP:
-		Helper::Commands();
+		Helper::commands();
 		break;
 	case MOVE_UP:
 		if (c1 != NULL) {

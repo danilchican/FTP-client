@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void Helper::Commands()
+void Helper::commands()
 {
 	char commands[COUNT_COMMANDS][2][80] =
 	{

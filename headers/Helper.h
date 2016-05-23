@@ -2,5 +2,5 @@
 class Helper
 {
 public:
-	static void Commands(); // display available commands
+	static void commands(); // display available commands
 };
