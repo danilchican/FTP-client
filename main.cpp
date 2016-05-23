@@ -16,7 +16,7 @@ int main()
 	do {
 		cmd->setCommandLine();
 
-		if (control->haveAny(cmd->getRequest())) {
+		if (Command::haveAnyArgs(cmd->getRequest())) {
 			control->setControlWithParams(Command::getCommandByStroke(cmd->getRequest(), true),
 				Command::getCommandLineArguments(cmd->getRequest()));
 

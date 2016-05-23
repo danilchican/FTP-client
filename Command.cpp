@@ -115,3 +115,33 @@ char * Command::getCommandLineArguments(char *cmd)
 
 	return arguments;
 }
+bool Command::haveAnyArgs(char *cmd)
+{
+	int countArguments;
+
+	char *commandLine = new char[strlen(cmd) + 1];
+	strcpy_s(commandLine, strlen(cmd) + 1, cmd);
+
+	char *pch = strtok(commandLine, " -");
+
+	for (countArguments = -1; pch != NULL; countArguments++) {
+		pch = strtok(NULL, " -");
+	}
+
+	return (countArguments > 0) ? true : false;
+}
+bool Command::checkCountParams(char *params, CountParams count)
+{
+	int countArguments = 0;
+
+	char *arg = new char[strlen(params) + 1];
+	strcpy(arg, params);
+
+	char *pch = strtok(arg, ",");
+
+	for (countArguments = 0; pch != NULL; countArguments++) {
+		pch = strtok(NULL, ",");
+	}
+
+	return (countArguments == count) ? true : false;
+}

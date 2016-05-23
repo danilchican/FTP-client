@@ -25,7 +25,6 @@ enum CountParams {
 #include "Connection.h"
 #include "CommandLine.h"
 #include "Control.h"
-#include "Checkout.h"
 #include "ResponseHandler.h"
 #include "Directory.h"
 #include "File.h"
