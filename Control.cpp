@@ -148,7 +148,7 @@ void Control::setControlWithParams(Commands command, char *params)
 	switch (command) {
 	case CONNECT:
 		if (c1 == NULL) {
-			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
+			if (!Checkout::checkCountParams(params, ONE_PARAM)) {
 				cout << "You haven't all params to connect to host.\nSee --help. create [host_id]" << endl;
 			}
 			else {
@@ -194,7 +194,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		cout << PARAMS_NOT_REQUIRED << endl;
 		break;
 	case ADD_HOST:
-			if (!Checkout<bool>::checkCountParams(params, FOUR_PARAMS)) {
+			if (!Checkout::checkCountParams(params, FOUR_PARAMS)) {
 				cout << "You haven't all params to add new host.\nSee --help. addhost [host] [port] [user] [pass]" << endl;
 			}
 			else {
@@ -213,7 +213,7 @@ void Control::setControlWithParams(Commands command, char *params)
 			}
 		break;
 	case DELETE_HOST:
-		if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
+		if (!Checkout::checkCountParams(params, ONE_PARAM)) {
 			cout << "You haven't all params to delete host.\nSee --help. rmhost [id]" << endl;
 		}
 		else {
@@ -230,7 +230,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case MAKE_DIR:
 		if (c1 != NULL)	{
-			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
+			if (!Checkout::checkCountParams(params, ONE_PARAM)) {
 				cout << ONLY_ONE_PARAM << endl;
 			}
 			else {
@@ -243,7 +243,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case CHANGE_DIR:
 		if (c1 != NULL) {
-			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
+			if (!Checkout::checkCountParams(params, ONE_PARAM)) {
 				cout << ONLY_ONE_PARAM << endl;
 			}
 			else {
@@ -326,7 +326,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case DELETE_FILE:
 		if (c1 != NULL)	{
-			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
+			if (!Checkout::checkCountParams(params, ONE_PARAM)) {
 				cout << "You haven't all params to delete file.\nSee --help. rm [file]" << endl;
 			}
 			else {
@@ -353,7 +353,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case RENAME_FILE:
 		if (c1 != NULL)	{
-			if (!Checkout<bool>::checkCountParams(params, TWO_PARAMS)) {
+			if (!Checkout::checkCountParams(params, TWO_PARAMS)) {
 				cout << "You haven't all params to rename file.\nSee --help. rn [from] [to]"  << endl;
 			}
 			else {
@@ -380,7 +380,7 @@ void Control::setControlWithParams(Commands command, char *params)
 		break;
 	case DELETE_DIR:
 		if (c1 != NULL) {
-			if (!Checkout<bool>::checkCountParams(params, ONE_PARAM)) {
+			if (!Checkout::checkCountParams(params, ONE_PARAM)) {
 				cout << ONLY_ONE_PARAM << endl;
 			}
 			else {

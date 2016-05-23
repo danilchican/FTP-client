@@ -171,7 +171,7 @@ void File::setPath()
 }
 bool File::hasDirectory(char *params)
 {
-	if (!Checkout<bool>::checkCountParams(params, TWO_PARAMS)) {
+	if (!Checkout::checkCountParams(params, TWO_PARAMS)) {
 		cout << "You haven't all params to download.\nSee --help. dd [file] [path]" << endl;
 		return false;
 	}		
@@ -198,7 +198,7 @@ bool File::hasDirectory(char *params)
 }
 bool File::hasFileInSystem(char *params)
 {
-	if (!Checkout<bool>::checkCountParams(params, TWO_PARAMS)) {
+	if (!Checkout::checkCountParams(params, TWO_PARAMS)) {
 		cout << "You haven't all params to upload.\nSee --help. upload [file] [path]" << endl;
 		return false;
 	}
