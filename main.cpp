@@ -15,13 +15,16 @@ int main()
 	Commands command;
 	bool exit = false;
 
-
 	do {
-		cmd->setCommandLine();
+		char *request = NULL;
 
-		if (Command::haveAnyArgs(cmd->getRequest())) {
-			command = Command::getCommandByStroke(cmd->getRequest(), true);
-			char *args = Command::getCommandLineArguments(cmd->getRequest());
+		cmd->setCommandLine();
+		request = cmd->getRequest();
+
+		if (Command::haveAnyArgs(request)) {
+			command = Command::getCommandByStroke(request, true);
+			char *args = NULL;
+			args = Command::getCommandLineArguments(request);
 
 			control->setControlWithParams(command, args);
 
@@ -29,11 +32,13 @@ int main()
 			exit = false;
 		} 
 		else {
-			command = Command::getCommandByStroke(cmd->getRequest(), false);
+			command = Command::getCommandByStroke(request, false);
 
 			control->setControl(command);
 			exit = true;
 		}
+
+		free(request);
 
 	} while ((command != EXIT) || !exit);
 
