@@ -17,7 +17,7 @@ enum CountParams {
 #define SIZE_BUFF 1048576
 
 #define PARAMS_NOT_REQUIRED "Parameters aren't required for this command"
-#define ONLY_ONE_PARAM "Command have only one param. See -help."
+#define ONLY_ONE_PARAM "Command have only one param. See \"help\"."
 #define DB_NOT_ACCESSABLE "Can't open the database..."
 
 #include "Command.h"

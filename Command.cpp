@@ -37,8 +37,11 @@ void Command::sendCommand(SOCKET sock, const char *command)
 	}
 	
 }
-Commands Command::getCommandByStroke(char *command, bool haveParams)
+Commands Command::getCommandByStroke(char *comm, bool haveParams)
 {
+	char *command = new char[strlen(comm) + 1];
+	strcpy_s(command, strlen(comm) + 1, comm);
+
 	if (haveParams)	{
 		char * pch = strtok(command, " ");
 

@@ -172,7 +172,7 @@ void File::setPath()
 bool File::hasDirectory(char *params)
 {
 	if (!Command::checkCountParams(params, TWO_PARAMS)) {
-		cout << "You haven't all params to download.\nSee --help. dd [file] [path]" << endl;
+		cout << "You haven't all params to download.\nSee --help. download [file] [path]" << endl;
 		return false;
 	}		
 
@@ -195,6 +195,8 @@ bool File::hasDirectory(char *params)
 	if (ftyp & FILE_ATTRIBUTE_DIRECTORY) {
 		return true;   
 	}
+
+	return false;
 }
 bool File::hasFileInSystem(char *params)
 {
@@ -429,9 +431,7 @@ bool File::deleteProcess()
 bool File::renameProcess()
 {
 	try {
-		char command[255],
-			 fileTo[255],
-			 *pch;
+		char command[255], fileTo[255];
 
 		command[0] = '\0';
 		fileTo[0] = '\0';

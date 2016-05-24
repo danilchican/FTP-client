@@ -11,23 +11,31 @@ int main()
 
 	CommandLine *cmd = new CommandLine();
 	Control *control = new Control();
+
+	Commands command;
 	bool exit = false;
+
 
 	do {
 		cmd->setCommandLine();
 
 		if (Command::haveAnyArgs(cmd->getRequest())) {
-			control->setControlWithParams(Command::getCommandByStroke(cmd->getRequest(), true),
-				Command::getCommandLineArguments(cmd->getRequest()));
+			command = Command::getCommandByStroke(cmd->getRequest(), true);
+			char *args = Command::getCommandLineArguments(cmd->getRequest());
 
+			control->setControlWithParams(command, args);
+
+			free(args);
 			exit = false;
 		} 
 		else {
-			control->setControl(Command::getCommandByStroke(cmd->getRequest(), false));
+			command = Command::getCommandByStroke(cmd->getRequest(), false);
+
+			control->setControl(command);
 			exit = true;
 		}
 
-	} while ((Command::getCommandByStroke(cmd->getRequest(), false) != EXIT) || !exit);
+	} while ((command != EXIT) || !exit);
 
 	delete cmd, control;
 	Sleep(1000);

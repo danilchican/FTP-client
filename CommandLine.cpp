@@ -6,7 +6,6 @@ using namespace std;
 void CommandLine::setCommandLine()
 {
 	cout << "> ";
-	
 	this->setData();
 }
 void CommandLine::setData()
